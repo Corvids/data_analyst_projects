@@ -9,12 +9,6 @@ import pandas as pd
 from collections import Counter
 import pprint
 
-from feature_format import featureFormat, targetFeatureSplit
-from tester import dump_classifier_and_data
-
-from sklearn import linear_model
-from sklearn.cross_validation import train_test_split
-
 ### Task 1: Select what features you'll use.
 ### features_list is a list of strings, each of which is a feature name.
 ### The first feature must be "poi".
@@ -104,7 +98,6 @@ for i in range(0, len(features_list)):
 '''
 
 ### Task 3: Create new feature(s)
-
 
 ### Store to my_dataset for easy export below.
 my_dataset = data_dict
