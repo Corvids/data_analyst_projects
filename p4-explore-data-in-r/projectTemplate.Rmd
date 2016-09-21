@@ -1,4 +1,4 @@
-TITLE by YOUR_NAME_HERE
+Prosper Loan Data by Jennifer Joo
 ========================================================
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE, packages}
@@ -15,6 +15,8 @@ TITLE by YOUR_NAME_HERE
 
 
 library(ggplot2)
+library(knitr)
+library(dplyr)
 ```
 
 ```{r echo=FALSE, Load_the_Data}
