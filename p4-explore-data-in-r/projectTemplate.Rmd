@@ -9,6 +9,11 @@ TITLE by YOUR_NAME_HERE
 # This prevents the code from displaying in the knitted HTML output.
 # You should set echo=FALSE for all code chunks in your file.
 
+# install.packages("ggplot2", dependencies = T) 
+# install.packages("knitr", dependencies = T)
+# install.packages("dplyr", dependencies = T)
+
+
 library(ggplot2)
 ```
 
