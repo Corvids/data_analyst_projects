@@ -25,9 +25,9 @@ library(dplyr)
 # Load the Data
 wd = "C:/Users/joonn/Desktop/udacity_data_analyst_projects/p4-explore-data-in-r/"
 setwd(wd)
+
 red <- read.csv("winequality-red.csv", sep = ";")
 red$type <- 'red'
-
 white <- read.csv("winequality-white.csv", sep = ";")
 white$type <- 'white'
 
@@ -50,8 +50,8 @@ ggplot(data, aes(x=pH)) + geom_bar()
 ggplot(data, aes(x=volatile.acidity)) + geom_bar()
 
 # box plot
-ggplot(data, aes(pH, quality)) + geom_boxplot()
-
+ggplot(data, aes(x=type, y=quality)) + geom_boxplot()
+ggplot(data, aes(x=type, y=pH)) + geom_boxplot()
 
 ```
 
@@ -63,11 +63,12 @@ There are 4898 observations and 12 variables.
 
 ### What is/are the main feature(s) of interest in your dataset?
 
-The main feature is quality, which is a score between 0 and 10.
+The main features of interest are quality, which is a score between 0 and 10, and type, a created variable that indicates whether the wine is red or white.
 
 ### What other features in the dataset do you think will help support your investigation into your feature(s) of interest?
 
 ### Did you create any new variables from existing variables in the dataset?
+
 
 ### Of the features you investigated, were there any unusual distributions? Did you perform any operations on the data to tidy, adjust, or change the form of the data? If so, why did you do this?
 
