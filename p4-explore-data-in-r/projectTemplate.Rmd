@@ -59,7 +59,7 @@ ggplot(data, aes(x=type, y=pH)) + geom_boxplot()
 
 ### What is the structure of your dataset?
 
-There are 4898 observations and 12 variables.
+There are 6,497 observations and 13 variables.
 
 ### What is/are the main feature(s) of interest in your dataset?
 
@@ -67,17 +67,22 @@ The main features of interest are quality, which is a score between 0 and 10, an
 
 ### What other features in the dataset do you think will help support your investigation into your feature(s) of interest?
 
+Without looking further at the data set, I think that pH, chlorides, alcohol, and residual.sugar may be important.
+
 ### Did you create any new variables from existing variables in the dataset?
 
+Yes, I merge the red wine and white wine datasets and created the variable "type" to indicate which dataset the observations came from.  The possible values are "red" and "white".
 
 ### Of the features you investigated, were there any unusual distributions? Did you perform any operations on the data to tidy, adjust, or change the form of the data? If so, why did you do this?
 
+The distribution for chlorides showed a right skew.
 
 
 # Bivariate Plots Section
 ```{r echo=FALSE, Bivariate_Plots}
 
-ggplot(data, aes(x=quality, y=alcohol, fill=chlorides)) + geom_bar(stat="identity")
+ggplot(data, aes(x=quality, y=alcohol, fill=type)) + geom_bar(stat="identity")
+ggplot(data, aes(x=quality, y=pH, fill=type)) + geom_bar(stat="identity")
 
 # correlation matrix
 library(reshape2)
