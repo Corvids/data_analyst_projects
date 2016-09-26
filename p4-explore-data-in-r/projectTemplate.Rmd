@@ -82,7 +82,7 @@ The distribution for chlorides showed a right skew.
 ```{r echo=FALSE, Bivariate_Plots}
 
 ggplot(data, aes(x=quality, y=alcohol, fill=type)) + geom_bar(stat="identity")
-ggplot(data, aes(x=quality, y=pH, fill=type)) + geom_bar(stat="identity")
+ggplot(data, aes(x=pH, y=alcohol, fill=type)) + geom_bar(stat="identity")
 
 # correlation matrix
 library(reshape2)
