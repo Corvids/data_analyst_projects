@@ -21,20 +21,30 @@ library(dplyr)
 
 ```{r echo=FALSE, Load_the_Data}
 # Load the Data
-data <- read.csv("C:/Users/joonn/Desktop/udacity_data_analyst_projects/p4-explore-data-in-r/wineQualityWhites.csv")
+wd = "C:/Users/joonn/Desktop/udacity_data_analyst_projects/p4-explore-data-in-r/"
+setwd(wd)
+data <- read.csv("wineQualityWhites.csv")
 
 str(data)
+
+data <- data[-1]
+
 ```
 
 # Univariate Plots Section
 ```{r echo=FALSE, Univariate_Plots}
 
-qplot(data$quality, geom="histogram",
-      fill=factor(vs),
-      main = "Quality Scores of White Wine", 
-      xlab = "quality",
-      binwidth = 0.5)
+par(mfrow=c(3,2))
 
+ggplot(data, aes(x=quality)) + geom_bar()
+
+ggplot(data, aes(x=chlorides)) + geom_bar()
+
+ggplot(data, aes(x=sulphates)) + geom_bar()
+
+ggplot(data, aes(x=pH)) + geom_bar()
+
+ggplot(data, aes(x=volatile.acidity)) + geom_bar()
 
 ```
 
@@ -42,7 +52,7 @@ qplot(data$quality, geom="histogram",
 
 ### What is the structure of your dataset?
 
-There are 4898 observations and 13 variables.
+There are 4898 observations and 12 variables.
 
 ### What is/are the main feature(s) of interest in your dataset?
 
@@ -58,6 +68,13 @@ The main feature is quality, which is a score between 0 and 10.
 
 # Bivariate Plots Section
 ```{r echo=FALSE, Bivariate_Plots}
+
+ggplot(data, aes(x=quality, y=alcohol, fill=chlorides)) + geom_bar(stat="identity")
+
+# correlation matrix
+library(reshape2)
+qplot(x=Var1, y=Var2, data=melt(cor(data)), fill=value, geom="tile")
+
 
 ```
 
