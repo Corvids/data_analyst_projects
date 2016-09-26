@@ -20,14 +20,21 @@ library(dplyr)
 ```
 
 ```{r echo=FALSE, Load_the_Data}
+# data source: http://archive.ics.uci.edu/ml/datasets/Wine+Quality
+
 # Load the Data
 wd = "C:/Users/joonn/Desktop/udacity_data_analyst_projects/p4-explore-data-in-r/"
 setwd(wd)
-data <- read.csv("wineQualityWhites.csv")
+red <- read.csv("winequality-red.csv", sep = ";")
+red$type <- 'red'
+
+white <- read.csv("winequality-white.csv", sep = ";")
+white$type <- 'white'
+
+data <- rbind(red, white)
 
 str(data)
-
-data <- data[-1]
+summary(data)
 
 ```
 
@@ -37,14 +44,14 @@ data <- data[-1]
 par(mfrow=c(3,2))
 
 ggplot(data, aes(x=quality)) + geom_bar()
-
 ggplot(data, aes(x=chlorides)) + geom_bar()
-
 ggplot(data, aes(x=sulphates)) + geom_bar()
-
 ggplot(data, aes(x=pH)) + geom_bar()
-
 ggplot(data, aes(x=volatile.acidity)) + geom_bar()
+
+# box plot
+ggplot(data, aes(pH, quality)) + geom_boxplot()
+
 
 ```
 
@@ -79,10 +86,9 @@ qplot(x=Var1, y=Var2, data=melt(cor(data)), fill=value, geom="tile") +
       limits=c(-1.0, 1.0))
 
 # histogram
-hist <- ggplot(data, aes(x = pH, fill = quality)) +
-        geom_histogram(position = "dodge", bins=30) +
-        scale_fill_brewer()
-hist
+ggplot(data, aes(x = pH, fill = quality)) +
+  geom_histogram(position = "dodge", bins=30) +
+    scale_fill_brewer()
 
 # histogram 2
 ggplot(data, aes(x=density, y=pH)) + geom_point() +
