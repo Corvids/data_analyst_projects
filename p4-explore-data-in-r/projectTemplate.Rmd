@@ -73,7 +73,22 @@ ggplot(data, aes(x=quality, y=alcohol, fill=chlorides)) + geom_bar(stat="identit
 
 # correlation matrix
 library(reshape2)
-qplot(x=Var1, y=Var2, data=melt(cor(data)), fill=value, geom="tile")
+qplot(x=Var1, y=Var2, data=melt(cor(data)), fill=value, geom="tile") +
+  scale_fill_gradient(low="lightblue", high="red",
+      breaks=c(-1.0, -0.8, -0.6, -0.4, -0.2, 0, 0.2, 0.4, 0.6, 0.8, 1.0),
+      limits=c(-1.0, 1.0))
+
+# histogram
+hist <- ggplot(data, aes(x = pH, fill = quality)) +
+        geom_histogram(position = "dodge", bins=30) +
+        scale_fill_brewer()
+hist
+
+# histogram 2
+ggplot(data, aes(x=density, y=pH)) + geom_point() +
+    scale_fill_gradient(low="lightblue", high="red",
+      breaks=c(0, 0.1, .2, 0.3, 0.4, 0.5, 1.0),
+      limits=c(0, 1.2))
 
 
 ```
@@ -92,6 +107,13 @@ qplot(x=Var1, y=Var2, data=melt(cor(data)), fill=value, geom="tile")
 # Multivariate Plots Section
 
 ```{r echo=FALSE, Multivariate_Plots}
+library(RColorBrewer)
+
+# remove outliers
+density_sample <- data[data$density<=1.0,]
+plot <- ggplot(density_sample, aes(density, residual.sugar)) +
+              geom_point(aes(colour = quality)) +
+              scale_colour_brewer(palette = "Greens")
 
 ```
 
