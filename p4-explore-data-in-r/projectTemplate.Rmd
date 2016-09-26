@@ -1,4 +1,4 @@
-Prosper Loan Data by Jennifer Joo
+White Wine Quality by Jennifer Joo
 ========================================================
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE, packages}
@@ -21,11 +21,20 @@ library(dplyr)
 
 ```{r echo=FALSE, Load_the_Data}
 # Load the Data
+data <- read.csv("C:/Users/joonn/Desktop/udacity_data_analyst_projects/p4-explore-data-in-r/wineQualityWhites.csv")
 
+str(data)
 ```
 
 # Univariate Plots Section
 ```{r echo=FALSE, Univariate_Plots}
+
+qplot(data$quality, geom="histogram",
+      fill=factor(vs),
+      main = "Quality Scores of White Wine", 
+      xlab = "quality",
+      binwidth = 0.5)
+
 
 ```
 
@@ -33,7 +42,11 @@ library(dplyr)
 
 ### What is the structure of your dataset?
 
+There are 4898 observations and 13 variables.
+
 ### What is/are the main feature(s) of interest in your dataset?
+
+The main feature is quality, which is a score between 0 and 10.
 
 ### What other features in the dataset do you think will help support your investigation into your feature(s) of interest?
 
