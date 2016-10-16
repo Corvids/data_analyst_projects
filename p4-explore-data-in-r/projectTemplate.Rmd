@@ -12,7 +12,7 @@ White Wine Quality by Jennifer Joo
 # install.packages("ggplot2", dependencies = T) 
 # install.packages("knitr", dependencies = T)
 # install.packages("dplyr", dependencies = T)
-
+ 
 
 library(ggplot2)
 library(knitr)
