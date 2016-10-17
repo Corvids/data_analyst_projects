@@ -86,6 +86,9 @@ ggplot(data, aes(x=pH, y=alcohol, fill=type)) + geom_bar(stat="identity")
 
 # correlation matrix
 library(reshape2)
+
+mcor <- cor(data)
+
 qplot(x=Var1, y=Var2, data=melt(cor(data)), fill=value, geom="tile") +
   scale_fill_gradient(low="lightblue", high="red",
       breaks=c(-1.0, -0.8, -0.6, -0.4, -0.2, 0, 0.2, 0.4, 0.6, 0.8, 1.0),
