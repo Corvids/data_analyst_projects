@@ -13,10 +13,11 @@ White and Red Wine Quality by Jennifer Joo
 # install.packages("knitr", dependencies = T)
 # install.packages("dplyr", dependencies = T)
  
-
 library(ggplot2)
 library(knitr)
 library(dplyr)
+library(corrplot)
+
 ```
 
 ```{r echo=FALSE, Load_the_Data}
@@ -81,14 +82,20 @@ The distribution for chlorides showed a right skew.
 # Bivariate Plots Section
 ```{r echo=FALSE, Bivariate_Plots}
 
-ggplot(data, aes(x=quality, y=alcohol, fill=type)) + geom_bar(stat="identity")
-ggplot(data, aes(x=pH, y=alcohol, fill=type)) + geom_bar(stat="identity")
+# density plots by wine type (red, white)
+ggplot(data, aes(x=quality, colour=type)) + geom_density()
 
-# histogram
-ggplot(data, aes(x=density, y=pH)) + geom_point() +
-    scale_fill_gradient(low="lightblue", high="red",
-      breaks=c(0, 0.1, .2, 0.3, 0.4, 0.5, 1.0),
-      limits=c(0, 1.2))
+# box plot -- quality by type
+ggplot(data, aes(x=type, y=quality, fill=type)) + geom_boxplot()
+
+
+# correlation matrix
+df_corr <- subset( data,select=-c(type) )
+mcor <- cor(df_corr)
+round(mcor, digits=2) # not very nice to look at
+
+library(corrplot)
+corrplot(mcor, method="shade", shade.col=NA, tl.col="black", tl.srt=45)
 
 
 ```
@@ -96,7 +103,8 @@ ggplot(data, aes(x=density, y=pH)) + geom_point() +
 # Bivariate Analysis
 
 ### Talk about some of the relationships you observed in this part of the investigation. How did the feature(s) of interest vary with other features in the dataset?
-Overall, red wines had a greater pH when controlling for alcohol level.
+
+In the density plot, it appears as though white wines are rated more highly but since there are more white wines, this graph may be misleading.  Looking at the box plot, the majority of each wine (red and white) are rated between a 5 and 6 but white wines have more outliers that are rated more highly.
 
 
 ### Did you observe any interesting relationships between the other features (not the main feature(s) of interest)?
@@ -109,13 +117,18 @@ Overall, red wines had a greater pH when controlling for alcohol level.
 # Multivariate Plots Section
 
 ```{r echo=FALSE, Multivariate_Plots}
-library(RColorBrewer)
 
-# remove outliers
-density_sample <- data[data$density<=1.0,]
-plot <- ggplot(density_sample, aes(density, residual.sugar)) +
-              geom_point(aes(colour = quality)) +
-              scale_colour_brewer(palette = "Greens")
+# bar graphs
+ggplot(data, aes(x=quality, y=pH, fill=type)) + geom_bar(stat="identity")
+ggplot(data, aes(x=pH, y=alcohol, fill=type)) + geom_bar(stat="identity")
+ggplot(data, aes(x=pH, y=quality, fill=type)) + geom_bar(stat="identity")
+
+
+# Extend the regression lines beyond the domain of the data
+ggplot(data, aes(x=pH, y=quality, color=type)) + geom_point(shape=1) +
+    scale_colour_hue(l=50) +
+    geom_smooth(method=lm,   # Add linear regression lines
+                se=FALSE, fullrange=TRUE) # extend the regression lines
 
 ```
 
