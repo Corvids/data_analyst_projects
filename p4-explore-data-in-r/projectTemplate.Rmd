@@ -1,4 +1,4 @@
-White Wine Quality by Jennifer Joo
+White and Red Wine Quality by Jennifer Joo
 ========================================================
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE, packages}
@@ -84,22 +84,7 @@ The distribution for chlorides showed a right skew.
 ggplot(data, aes(x=quality, y=alcohol, fill=type)) + geom_bar(stat="identity")
 ggplot(data, aes(x=pH, y=alcohol, fill=type)) + geom_bar(stat="identity")
 
-# correlation matrix
-library(reshape2)
-
-mcor <- cor(data)
-
-qplot(x=Var1, y=Var2, data=melt(cor(data)), fill=value, geom="tile") +
-  scale_fill_gradient(low="lightblue", high="red",
-      breaks=c(-1.0, -0.8, -0.6, -0.4, -0.2, 0, 0.2, 0.4, 0.6, 0.8, 1.0),
-      limits=c(-1.0, 1.0))
-
 # histogram
-ggplot(data, aes(x = pH, fill = quality)) +
-  geom_histogram(position = "dodge", bins=30) +
-    scale_fill_brewer()
-
-# histogram 2
 ggplot(data, aes(x=density, y=pH)) + geom_point() +
     scale_fill_gradient(low="lightblue", high="red",
       breaks=c(0, 0.1, .2, 0.3, 0.4, 0.5, 1.0),
@@ -111,6 +96,8 @@ ggplot(data, aes(x=density, y=pH)) + geom_point() +
 # Bivariate Analysis
 
 ### Talk about some of the relationships you observed in this part of the investigation. How did the feature(s) of interest vary with other features in the dataset?
+Overall, red wines had a greater pH when controlling for alcohol level.
+
 
 ### Did you observe any interesting relationships between the other features (not the main feature(s) of interest)?
 
