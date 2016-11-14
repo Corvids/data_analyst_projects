@@ -137,7 +137,7 @@ plot1 <- ggplot(data, aes(x=pH, y=quality, color=type)) + geom_point(shape=1) +
 
 plot2 <- ggplot(data, aes(x=sulphates, y=pH, colour=quality)) +
           geom_point(alpha=.3) +
-          geom_smooth(alpha=.2, size=1)
+          geom_smooth(alpha=.2, size=1, method='gam')
 
 plot3 <-   
   
