@@ -68,7 +68,7 @@ The main features of interest are quality, which is a score between 0 and 10, an
 
 ### What other features in the dataset do you think will help support your investigation into your feature(s) of interest?
 
-Without looking further at the data set, I think that pH, chlorides, alcohol, and residual.sugar may be important.
+Without looking further at the data set, I think that pH, quality, and alcohol may be important.
 
 ### Did you create any new variables from existing variables in the dataset?
 
@@ -90,12 +90,17 @@ ggplot(data, aes(x=type, y=quality, fill=type)) + geom_boxplot()
 
 
 # correlation matrix
+# for reference, see:
+# https://cran.r-project.org/web/packages/corrplot/vignettes/corrplot-intro.html
 df_corr <- subset( data,select=-c(type) )
 mcor <- cor(df_corr)
-round(mcor, digits=2) # not very nice to look at
 
 library(corrplot)
-corrplot(mcor, method="shade", shade.col=NA, tl.col="black", tl.srt=45)
+col <- colorRampPalette( brewer.pal( 6 , "RdBu" ) )
+
+corrplot(mcor, method="shade",
+            shade.col=NA, tl.col="black", tl.srt=35, type="lower",
+            col=col(200), addCoef.col="black", addcolorlabel="no")
 
 
 ```
@@ -111,6 +116,8 @@ In the density plot, it appears as though white wines are rated more highly but 
 
 ### What was the strongest relationship you found?
 
+The strongest relationship was between total.sulfur.dioxide and free.sulfur.dioxide which has a correlation of 0.72.  The next strongest was between density and residual.sugar with a correlation of 0.55.
+
 
 
 
@@ -119,16 +126,16 @@ In the density plot, it appears as though white wines are rated more highly but 
 ```{r echo=FALSE, Multivariate_Plots}
 
 # bar graphs
-ggplot(data, aes(x=quality, y=pH, fill=type)) + geom_bar(stat="identity")
+ggplot(data, aes(x=quality, y=alcohol, fill=type)) + geom_bar(stat="identity")
 ggplot(data, aes(x=pH, y=alcohol, fill=type)) + geom_bar(stat="identity")
-ggplot(data, aes(x=pH, y=quality, fill=type)) + geom_bar(stat="identity")
 
-
-# Extend the regression lines beyond the domain of the data
+# scatter and lin regression lines
 ggplot(data, aes(x=pH, y=quality, color=type)) + geom_point(shape=1) +
-    scale_colour_hue(l=50) +
+    scale_colour_hue(l=75) +
     geom_smooth(method=lm,   # Add linear regression lines
                 se=FALSE, fullrange=TRUE) # extend the regression lines
+
+multiplot(p1, p2, p3, p4, cols=2)
 
 ```
 
