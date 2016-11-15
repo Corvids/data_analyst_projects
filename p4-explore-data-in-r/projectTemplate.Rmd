@@ -24,9 +24,6 @@ library(corrplot)
 # data source: http://archive.ics.uci.edu/ml/datasets/Wine+Quality
 
 # Load the Data
-wd = "C:/Users/joonn/Desktop/udacity_data_analyst_projects/p4-explore-data-in-r/"
-setwd(wd)
-
 red <- read.csv("winequality-red.csv", sep = ";")
 red$type <- 'red'
 white <- read.csv("winequality-white.csv", sep = ";")
@@ -126,7 +123,6 @@ The distribution for chlorides showed a right skew.
 
 # Bivariate Plots Section
 ```{r echo=FALSE, Bivariate_Plots}
-
 # box plot -- quality by type
 plot1 <- ggplot(data, aes(x=type, y=quality, fill=type)) +
           geom_boxplot() + ggtitle("Box Plot for Quality by Wine Type")
@@ -147,8 +143,7 @@ col <- colorRampPalette(c("#BB4444", "#EE9988", "#FFFFFF", "#77AADD", "#4477AA")
 
 corrplot(mcor, method="shade",
             shade.col=NA, tl.col="black", tl.srt=35, type="lower",
-            col=col(50), addCoef.col="black", addcolorlabel="no") +
-            lab(title="Correlation Matrix")
+            col=col(50), addCoef.col="black", addcolorlabel="no")
 
 
 ```
@@ -219,9 +214,6 @@ The relationship between alcohol and pH was positive for red wines at a pH level
 
 ### Plot One
 ```{r echo=FALSE, Plot_One}
-str(data)
-summary(data)
-
 plot1 <- ggplot(data, aes(x=quality)) +
           geom_bar(colour="#333333", fill="#6666FF") +
           ggtitle("Quality Histogram")
