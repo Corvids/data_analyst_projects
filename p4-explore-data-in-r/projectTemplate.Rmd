@@ -82,11 +82,21 @@ multiplot <- function(..., plotlist=NULL, file, cols=1, layout=NULL) {
 # Univariate Plots Section
 ```{r echo=FALSE, Univariate_Plots}
 
-plot1 <- ggplot(data, aes(x=quality)) + geom_bar(colour="#333333", fill="#6666FF")
-plot2 <- ggplot(data, aes(x=alcohol)) + geom_bar(colour="#333333", fill="#3399FF")
-plot3 <- ggplot(data, aes(x=sulphates)) + geom_bar(colour="#333333", fill="#33FF99")
-plot4 <- ggplot(data, aes(x=pH)) + geom_bar(colour="#333333", fill="#CC3333")
+plot1 <- ggplot(data, aes(x=quality)) +
+          geom_bar(colour="#333333", fill="#6666FF") +
+          ggtitle("Quality Histogram")
 
+plot2 <- ggplot(data, aes(x=alcohol)) +
+          geom_bar(colour="#333333", fill="#3399FF") +
+          ggtitle("Alcohol Histogram")
+
+plot3 <- ggplot(data, aes(x=sulphates)) +
+          geom_bar(colour="#333333", fill="#33FF99") +
+          ggtitle("Sulphates Histogram")
+
+plot4 <- ggplot(data, aes(x=pH)) +
+          geom_bar(colour="#333333", fill="#CC3333") +
+          ggtitle("pH Histogram")
 multiplot(plot1, plot2, plot3, plot4)
 
 ```
@@ -117,16 +127,15 @@ The distribution for chlorides showed a right skew.
 # Bivariate Plots Section
 ```{r echo=FALSE, Bivariate_Plots}
 
-# density plots by wine type (red, white)
-plot1 <- ggplot(data, aes(x=quality, colour=type)) + geom_density()
-
 # box plot -- quality by type
-plot2 <- ggplot(data, aes(x=type, y=quality, fill=type)) + geom_boxplot()
+plot1 <- ggplot(data, aes(x=type, y=quality, fill=type)) +
+          geom_boxplot() + ggtitle("Box Plot for Quality by Wine Type")
 
 # box plot -- pH by type
-plot3 <- ggplot(data, aes(x=type, y=pH, fill=type)) + geom_boxplot()
+plot2 <- ggplot(data, aes(x=type, y=pH, fill=type)) +
+          geom_boxplot() + ggtitle("Box Plot for pH by Wine Type")
 
-multiplot(plot1, plot2, plot3)
+multiplot(plot1, plot2)
 
 # correlation matrix
 # for reference, see:
@@ -138,7 +147,8 @@ col <- colorRampPalette(c("#BB4444", "#EE9988", "#FFFFFF", "#77AADD", "#4477AA")
 
 corrplot(mcor, method="shade",
             shade.col=NA, tl.col="black", tl.srt=35, type="lower",
-            col=col(50), addCoef.col="black", addcolorlabel="no")
+            col=col(50), addCoef.col="black", addcolorlabel="no") +
+            lab(title="Correlation Matrix")
 
 
 ```
@@ -157,29 +167,32 @@ In the density plot, it appears as though white wines are rated more highly but 
 The strongest relationship was between total.sulfur.dioxide and free.sulfur.dioxide which has a correlation of 0.72.  The next strongest was between density and residual.sugar with a correlation of 0.55.
 
 
-
-
 # Multivariate Plots Section
 
 ```{r echo=FALSE, Multivariate_Plots}
 
 # bar graphs
-plot1 <- ggplot(data, aes(x=quality, y=alcohol, fill=type)) + geom_bar(stat="identity")
+plot1 <- ggplot(data, aes(x=quality, y=alcohol, fill=type)) +
+          geom_bar(stat="identity") +
+          ggtitle("Bar Plot for alcohol segmented by quality and wine type")
 
-plot2 <- ggplot(data, aes(x=pH, y=alcohol, fill=type)) + geom_bar(stat="identity")
+plot2 <- ggplot(data, aes(x=pH, y=alcohol, fill=type)) +
+          geom_bar(stat="identity") +
+          ggtitle("Bar Plot for alcohol segmented by pH and wine type")
 
 multiplot(plot1, plot2)
 
-# scatter and lin regression lines
+# scatter plots and regression lines
 plot1 <- ggplot(data, aes(x=pH, y=quality, color=type)) + geom_point(shape=1) +
           scale_colour_hue(l=75) +
-          geom_smooth(method=lm,   # Add linear regression lines
-          se=FALSE, fullrange=TRUE) # extend the regression lines
+          geom_smooth(method=lm,   # Adds regression lines
+          se=FALSE, fullrange=TRUE) # extenda the regression lines
 
 plot2 <- ggplot(data, aes(x=pH, y=alcohol, colour=type)) +
             geom_point(alpha=.3) +
             geom_smooth(alpha=.2, size=1, method='loess')
 
+# bar graphs faceted by quality
 plot3 <-  ggplot(data, aes(x=pH, fill=quality)) +
             geom_histogram(colour="grey") +
             facet_grid(quality ~ .)
@@ -209,12 +222,24 @@ The relationship between alcohol and pH was positive for red wines at a pH level
 str(data)
 summary(data)
 
-plot1 <- ggplot(data, aes(x=quality)) + geom_bar(colour="#333333", fill="#6666FF")
-plot2 <- ggplot(data, aes(x=alcohol)) + geom_bar(colour="#333333", fill="#3399FF")
-plot3 <- ggplot(data, aes(x=sulphates)) + geom_bar(colour="#333333", fill="#33FF99")
-plot4 <- ggplot(data, aes(x=pH)) + geom_bar(colour="#333333", fill="#CC3333")
+plot1 <- ggplot(data, aes(x=quality)) +
+          geom_bar(colour="#333333", fill="#6666FF") +
+          ggtitle("Quality Histogram")
+
+plot2 <- ggplot(data, aes(x=alcohol)) +
+          geom_bar(colour="#333333", fill="#3399FF") +
+          ggtitle("Alcohol Histogram")
+
+plot3 <- ggplot(data, aes(x=sulphates)) +
+          geom_bar(colour="#333333", fill="#33FF99") +
+          ggtitle("Sulphates Histogram")
+
+plot4 <- ggplot(data, aes(x=pH)) +
+          geom_bar(colour="#333333", fill="#CC3333") +
+          ggtitle("pH Histogram")
 
 multiplot(plot1, plot2, plot3, plot4)
+  
 ```
 
 ### Bar plots for Quality, Alcohol, Sulphates, and pH
@@ -222,6 +247,19 @@ multiplot(plot1, plot2, plot3, plot4)
 
 ### Plot Two
 ```{r echo=FALSE, Plot_Two}
+
+# box plot -- quality by type
+plot1 <- ggplot(data, aes(x=type, y=quality, fill=type)) +
+          geom_boxplot() + ggtitle("Box Plot for Quality by Wine Type")
+
+# box plot -- pH by type
+plot2 <- ggplot(data, aes(x=type, y=pH, fill=type)) +
+          geom_boxplot() + ggtitle("Box Plot for pH by Wine Type")
+
+multiplot(plot1, plot2)
+
+# correlation matrix
+
 df_corr <- subset( data,select=-c(type) )
 mcor <- cor(df_corr)
 
@@ -241,11 +279,13 @@ corrplot(mcor, method="shade",
 plot1 <- ggplot(data, aes(x=pH, y=quality, color=type)) + geom_point(shape=1) +
           scale_colour_hue(l=75) +
           geom_smooth(method=lm,   # Add linear regression lines
-          se=FALSE, fullrange=TRUE) # extend the regression lines
+              se=FALSE, fullrange=TRUE) + # extend the regression lines
+          ggtitle("Scatter Plot by Wine Type -- pH vs. quality")
 
 plot2 <- ggplot(data, aes(x=pH, y=alcohol, colour=type)) +
             geom_point(alpha=.3) +
-            geom_smooth(alpha=.2, size=1, method='loess')
+            geom_smooth(alpha=.2, size=1, method='loess') +
+            ggtitle("Scatter Plot by Wine Type -- pH vs. alcohol")
   
 multiplot(plot1, plot2)
 ```
@@ -255,7 +295,10 @@ multiplot(plot1, plot2)
 ------
 
 # Reflection
+
+This was an unbalanced dataset (there were more white wines in the data than red wines) but there were a couple of interesting observations nonetheless.  Quality had fairly low correlation values with all features expcept for alcohol (correlation = 0.44).  Looking at box plots by type and quality, the majority of red and white wines were rated a 5 or 6, although white wines had more outliers that were rated an 8 or 9. Red wines were also less acidic than white wines in general.
+
+
 ```{r echo=FALSE, Reflection}
-
-
+ knit()
 ```
