@@ -296,4 +296,4 @@ multiplot(plot1, plot2)
 
 # Reflection
 
-This was an unbalanced dataset (there were more white wines in the data than red wines) but there were a couple of interesting observations nonetheless.  Quality had fairly low correlation values with all features expcept for alcohol (correlation = 0.44).  Looking at box plots by type and quality, the majority of red and white wines were rated a 5 or 6, although white wines had more outliers that were rated an 8 or 9. Red wines were also less acidic than white wines in general.
+This was an unbalanced dataset (there were more white wines in the data than red wines) but there were a couple of interesting observations nonetheless.  Quality had fairly low correlation values with all features except for alcohol (correlation = 0.44).  Looking at box plots by type and quality, the majority of red and white wines were rated a 5 or 6, although white wines had more outliers that were rated an 8 or 9. Red wines were also less acidic than white wines in general.
