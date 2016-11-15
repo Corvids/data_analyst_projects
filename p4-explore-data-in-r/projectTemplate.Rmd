@@ -176,13 +176,17 @@ plot1 <- ggplot(data, aes(x=pH, y=quality, color=type)) + geom_point(shape=1) +
           geom_smooth(method=lm,   # Add linear regression lines
           se=FALSE, fullrange=TRUE) # extend the regression lines
 
-plot2 <- ggplot(data, aes(x=sulphates, y=pH, colour=quality)) +
-          geom_point(alpha=.3) +
-          geom_smooth(alpha=.2, size=1, method='gam')
+plot2 <- ggplot(data, aes(x=pH, y=alcohol, colour=type)) +
+            geom_point(alpha=.3) +
+            geom_smooth(alpha=.2, size=1)
 
-plot3 <-   
+plot3 <- ggplot(data, aes(x=pH, y=alcohol, colour=quality)) +
+            geom_point(alpha=.3) +
+            geom_smooth(alpha=.2, size=1)
   
-plot4 <- 
+plot4 <-  ggplot(data, aes(x=pH, fill=quality)) +
+            geom_histogram(colour="black") +
+            facet_grid(quality ~ .)
   
 multiplot(plot1, plot2, plot3, plot4)
 
