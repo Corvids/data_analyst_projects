@@ -134,12 +134,11 @@ multiplot(plot1, plot2, plot3)
 df_corr <- subset( data,select=-c(type) )
 mcor <- cor(df_corr)
 
-library(corrplot)
-col <- colorRampPalette( brewer.pal( 6 , "RdBu" ) )
+col <- colorRampPalette(c("#BB4444", "#EE9988", "#FFFFFF", "#77AADD", "#4477AA"))
 
 corrplot(mcor, method="shade",
             shade.col=NA, tl.col="black", tl.srt=35, type="lower",
-            col=col(200), addCoef.col="black", addcolorlabel="no")
+            col=col(50), addCoef.col="black", addcolorlabel="no")
 
 
 ```
@@ -166,6 +165,7 @@ The strongest relationship was between total.sulfur.dioxide and free.sulfur.diox
 
 # bar graphs
 plot1 <- ggplot(data, aes(x=quality, y=alcohol, fill=type)) + geom_bar(stat="identity")
+
 plot2 <- ggplot(data, aes(x=pH, y=alcohol, fill=type)) + geom_bar(stat="identity")
 
 multiplot(plot1, plot2)
@@ -178,17 +178,15 @@ plot1 <- ggplot(data, aes(x=pH, y=quality, color=type)) + geom_point(shape=1) +
 
 plot2 <- ggplot(data, aes(x=pH, y=alcohol, colour=type)) +
             geom_point(alpha=.3) +
-            geom_smooth(alpha=.2, size=1)
+            geom_smooth(alpha=.2, size=1, method='loess')
 
-plot3 <- ggplot(data, aes(x=pH, y=alcohol, colour=quality)) +
-            geom_point(alpha=.3) +
-            geom_smooth(alpha=.2, size=1)
-  
-plot4 <-  ggplot(data, aes(x=pH, fill=quality)) +
-            geom_histogram(colour="black") +
+plot3 <-  ggplot(data, aes(x=pH, fill=quality)) +
+            geom_histogram(colour="grey") +
             facet_grid(quality ~ .)
   
-multiplot(plot1, plot2, plot3, plot4)
+multiplot(plot1, plot2)
+
+plot3
 
 ```
 
@@ -198,6 +196,8 @@ multiplot(plot1, plot2, plot3, plot4)
 
 ### Were there any interesting or surprising interactions between features?
 
+The relationship between alcohol and pH was positive for red wines at a pH level greater than 3.5.  Overall, the relationship between pH and quality did not have a very positive relationship for white wines.  However, for red wines, there was a slight negative relationship between quality and pH for red wines.
+
 ### OPTIONAL: Did you create any models with your dataset? Discuss the strengths and limitations of your model.
 
 ------
@@ -206,27 +206,56 @@ multiplot(plot1, plot2, plot3, plot4)
 
 ### Plot One
 ```{r echo=FALSE, Plot_One}
+str(data)
+summary(data)
 
+plot1 <- ggplot(data, aes(x=quality)) + geom_bar(colour="#333333", fill="#6666FF")
+plot2 <- ggplot(data, aes(x=alcohol)) + geom_bar(colour="#333333", fill="#3399FF")
+plot3 <- ggplot(data, aes(x=sulphates)) + geom_bar(colour="#333333", fill="#33FF99")
+plot4 <- ggplot(data, aes(x=pH)) + geom_bar(colour="#333333", fill="#CC3333")
+
+multiplot(plot1, plot2, plot3, plot4)
 ```
 
-### Description One
+### Bar plots for Quality, Alcohol, Sulphates, and pH
 
 
 ### Plot Two
 ```{r echo=FALSE, Plot_Two}
+df_corr <- subset( data,select=-c(type) )
+mcor <- cor(df_corr)
+
+col <- colorRampPalette(c("#BB4444", "#EE9988", "#FFFFFF", "#77AADD", "#4477AA"))
+
+corrplot(mcor, method="shade",
+            shade.col=NA, tl.col="black", tl.srt=35, type="lower",
+            col=col(50), addCoef.col="black", addcolorlabel="no")
 
 ```
 
-### Description Two
+### Correlation Matrix
 
 
 ### Plot Three
 ```{r echo=FALSE, Plot_Three}
+plot1 <- ggplot(data, aes(x=pH, y=quality, color=type)) + geom_point(shape=1) +
+          scale_colour_hue(l=75) +
+          geom_smooth(method=lm,   # Add linear regression lines
+          se=FALSE, fullrange=TRUE) # extend the regression lines
 
+plot2 <- ggplot(data, aes(x=pH, y=alcohol, colour=type)) +
+            geom_point(alpha=.3) +
+            geom_smooth(alpha=.2, size=1, method='loess')
+  
+multiplot(plot1, plot2)
 ```
 
-### Description Three
+### Multivariate plots for wine type and pH vs quality/alcohol
 
 ------
 
 # Reflection
+```{r echo=FALSE, Reflection}
+
+
+```
