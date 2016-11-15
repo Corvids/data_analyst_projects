@@ -136,15 +136,17 @@ multiplot(plot1, plot2)
 # correlation matrix
 # for reference, see:
 # https://cran.r-project.org/web/packages/corrplot/vignettes/corrplot-intro.html
-df_corr <- subset( data,select=-c(type) )
+df_corr <- subset( data, select=-c(type) )
 mcor <- cor(df_corr)
+round(mcor, digits=2)
 
+cex.before <- par("cex")
+par(cex = 0.7)
 col <- colorRampPalette(c("#BB4444", "#EE9988", "#FFFFFF", "#77AADD", "#4477AA"))
-
-corrplot(mcor, method="shade",
-            shade.col=NA, tl.col="black", tl.srt=35, type="lower",
-            col=col(50), addCoef.col="black", addcolorlabel="no")
-
+corrplot(mcor, method="color",
+            shade.col=NA, tl.col="black", tl.srt=45, order="FPC",
+            col=col(50), addCoef.col="black", addcolorlabel="yes")
+par(cex = cex.before)
 
 ```
 
@@ -252,14 +254,14 @@ multiplot(plot1, plot2)
 
 # correlation matrix
 
-df_corr <- subset( data,select=-c(type) )
-mcor <- cor(df_corr)
-
+cex.before <- par("cex")
+par(cex = 0.7)
 col <- colorRampPalette(c("#BB4444", "#EE9988", "#FFFFFF", "#77AADD", "#4477AA"))
+corrplot(mcor, method="color",
+            shade.col=NA, tl.col="black", tl.srt=45, order="FPC",
+            col=col(50), addCoef.col="black", addcolorlabel="yes")
+par(cex = cex.before)
 
-corrplot(mcor, method="shade",
-            shade.col=NA, tl.col="black", tl.srt=35, type="lower",
-            col=col(50), addCoef.col="black", addcolorlabel="no")
 
 ```
 
