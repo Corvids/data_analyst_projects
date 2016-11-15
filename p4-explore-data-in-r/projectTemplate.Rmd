@@ -39,20 +39,55 @@ summary(data)
 
 ```
 
+```{r echo=FALSE, Multiplot}
+# source: http://www.cookbook-r.com/Graphs/Multiple_graphs_on_one_page_(ggplot2)/
+
+multiplot <- function(..., plotlist=NULL, file, cols=1, layout=NULL) {
+  library(grid)
+
+  # Make a list from the ... arguments and plotlist
+  plots <- c(list(...), plotlist)
+
+  numPlots = length(plots)
+
+  # If layout is NULL, then use 'cols' to determine layout
+  if (is.null(layout)) {
+    # Make the panel
+    # ncol: Number of columns of plots
+    # nrow: Number of rows needed, calculated from # of cols
+    layout <- matrix(seq(1, cols * ceiling(numPlots/cols)),
+                    ncol = cols, nrow = ceiling(numPlots/cols))
+  }
+
+ if (numPlots==1) {
+    print(plots[[1]])
+
+  } else {
+    # Set up the page
+    grid.newpage()
+    pushViewport(viewport(layout = grid.layout(nrow(layout), ncol(layout))))
+
+    # Make each plot, in the correct location
+    for (i in 1:numPlots) {
+      # Get the i,j matrix positions of the regions that contain this subplot
+      matchidx <- as.data.frame(which(layout == i, arr.ind = TRUE))
+
+      print(plots[[i]], vp = viewport(layout.pos.row = matchidx$row,
+                                      layout.pos.col = matchidx$col))
+    }
+  }
+}
+```
+
 # Univariate Plots Section
 ```{r echo=FALSE, Univariate_Plots}
 
-par(mfrow=c(3,2))
+plot1 <- ggplot(data, aes(x=quality)) + geom_bar(colour="#333333", fill="#6666FF")
+plot2 <- ggplot(data, aes(x=alcohol)) + geom_bar(colour="#333333", fill="#3399FF")
+plot3 <- ggplot(data, aes(x=sulphates)) + geom_bar(colour="#333333", fill="#33FF99")
+plot4 <- ggplot(data, aes(x=pH)) + geom_bar(colour="#333333", fill="#CC3333")
 
-ggplot(data, aes(x=quality)) + geom_bar()
-ggplot(data, aes(x=chlorides)) + geom_bar()
-ggplot(data, aes(x=sulphates)) + geom_bar()
-ggplot(data, aes(x=pH)) + geom_bar()
-ggplot(data, aes(x=volatile.acidity)) + geom_bar()
-
-# box plot
-ggplot(data, aes(x=type, y=quality)) + geom_boxplot()
-ggplot(data, aes(x=type, y=pH)) + geom_boxplot()
+multiplot(plot1, plot2, plot3, plot4)
 
 ```
 
@@ -83,11 +118,15 @@ The distribution for chlorides showed a right skew.
 ```{r echo=FALSE, Bivariate_Plots}
 
 # density plots by wine type (red, white)
-ggplot(data, aes(x=quality, colour=type)) + geom_density()
+plot1 <- ggplot(data, aes(x=quality, colour=type)) + geom_density()
 
 # box plot -- quality by type
-ggplot(data, aes(x=type, y=quality, fill=type)) + geom_boxplot()
+plot2 <- ggplot(data, aes(x=type, y=quality, fill=type)) + geom_boxplot()
 
+# box plot -- pH by type
+plot3 <- ggplot(data, aes(x=type, y=pH, fill=type)) + geom_boxplot()
+
+multiplot(plot1, plot2, plot3)
 
 # correlation matrix
 # for reference, see:
@@ -126,8 +165,10 @@ The strongest relationship was between total.sulfur.dioxide and free.sulfur.diox
 ```{r echo=FALSE, Multivariate_Plots}
 
 # bar graphs
-ggplot(data, aes(x=quality, y=alcohol, fill=type)) + geom_bar(stat="identity")
-ggplot(data, aes(x=pH, y=alcohol, fill=type)) + geom_bar(stat="identity")
+plot1 <- ggplot(data, aes(x=quality, y=alcohol, fill=type)) + geom_bar(stat="identity")
+plot2 <- ggplot(data, aes(x=pH, y=alcohol, fill=type)) + geom_bar(stat="identity")
+
+multiplot(plot1, plot2)
 
 # scatter and lin regression lines
 plot1 <- ggplot(data, aes(x=pH, y=quality, color=type)) + geom_point(shape=1) +
