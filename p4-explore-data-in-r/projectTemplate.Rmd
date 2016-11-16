@@ -17,8 +17,6 @@ alcohol
 quality (score between 0 and 10)
 type (red, white)
 
-We will begin the analysis by looking at the distribution of each of the above variables individually to see if they're skewed, contain outliers, etc.
-
 ```{r echo=FALSE, message=FALSE, warning=FALSE, packages}
 # Load all of the packages that you end up using
 # in your analysis in this code chunk.
@@ -58,47 +56,10 @@ data <- rbind(red, white)
 
 ```
 
-```{r echo=FALSE, Multiplot}
-# source: http://www.cookbook-r.com/Graphs/Multiple_graphs_on_one_page_(ggplot2)/
-
-multiplot <- function(..., plotlist=NULL, file, cols=1, layout=NULL) {
-  library(grid)
-
-  # Make a list from the ... arguments and plotlist
-  plots <- c(list(...), plotlist)
-
-  numPlots = length(plots)
-
-  # If layout is NULL, then use 'cols' to determine layout
-  if (is.null(layout)) {
-    # Make the panel
-    # ncol: Number of columns of plots
-    # nrow: Number of rows needed, calculated from # of cols
-    layout <- matrix(seq(1, cols * ceiling(numPlots/cols)),
-                    ncol = cols, nrow = ceiling(numPlots/cols))
-  }
-
- if (numPlots==1) {
-    print(plots[[1]])
-
-  } else {
-    # Set up the page
-    grid.newpage()
-    pushViewport(viewport(layout = grid.layout(nrow(layout), ncol(layout))))
-
-    # Make each plot, in the correct location
-    for (i in 1:numPlots) {
-      # Get the i,j matrix positions of the regions that contain this subplot
-      matchidx <- as.data.frame(which(layout == i, arr.ind = TRUE))
-
-      print(plots[[i]], vp = viewport(layout.pos.row = matchidx$row,
-                                      layout.pos.col = matchidx$col))
-    }
-  }
-}
-```
-
 # Univariate Plots Section
+
+We will begin the analysis by looking at the distribution of each of the above variables individually to see if they're skewed, contain outliers, etc.  We'll also take a quick look at the overall structure of the data and some summary statistics (mean, median, quartiles)
+
 ```{r echo=FALSE, Univariate_Plots}
 # look at the data frame
 str(data)
@@ -210,6 +171,9 @@ There are more white wine observations than red wine observations and this may a
 
 
 # Bivariate Plots Section
+
+We'll first create a box plot by quality and wine type to see if quality ratings for red and white wines vary drastically.
+
 ```{r echo=FALSE, Bivariate_Plots}
 # box plot -- quality by type
 box_plot1 <- ggplot(data, aes(x=type, y=quality, fill=type)) +
@@ -222,7 +186,7 @@ box_plot2 <- ggplot(data, aes(x=type, y=pH, fill=type)) +
           geom_boxplot() + ggtitle("Box Plot for pH by Wine Type")+
           labs(subtitle="Red wine generally has a larger pH than white wine")
 
-multiplot(box_plot1, box_plot2)
+print (box_plot1); print (box_plot2)
 
 # correlation matrix
 # for reference, see:
@@ -240,9 +204,9 @@ corrplot(mcor, method="color",
 par(cex = cex.before)
 
 
-# scatterplot matrix
+# scatterplot matrix for quality, pH, 
 
-plotmatrix(df_corr, colour="gray20") +
+ggpairs(df_corr, alpha=0.4) +
     geom_smooth(method="lm")
 
 ```
@@ -251,7 +215,7 @@ plotmatrix(df_corr, colour="gray20") +
 
 ### Talk about some of the relationships you observed in this part of the investigation. How did the feature(s) of interest vary with other features in the dataset?
 
-In the density plot, it appears as though white wines are rated more highly but since there are more white wines, this graph may be misleading.  Looking at the box plot, the majority of each wine (red and white) are rated between a 5 and 6 but white wines have more outliers that are rated more highly.
+In the box plots, quality didn't vary by wine type; the majority of the datapoints had a quality level of 5 or 6, although there white wines had an outlier that had a quality of 9.  However, red wines were generally less acidic (had a higher pH value) than white wines.  White wines also had more outliers in this box plot distribution although there are also more observations for white wines, so this I wouldn't consider this too unusual.
 
 
 ### Did you observe any interesting relationships between the other features (not the main feature(s) of interest)?
@@ -313,43 +277,6 @@ The relationship between alcohol and pH was positive for red wines at a pH level
 
 ### Plot One
 ```{r echo=FALSE, Plot_One}
-plot1 <- ggplot(data, aes(x=quality)) +
-          geom_bar(colour="#333333", fill="#6666FF") +
-          ggtitle("Quality Histogram")
-
-plot2 <- ggplot(data, aes(x=alcohol)) +
-          geom_bar(colour="#333333", fill="#3399FF") +
-          ggtitle("Alcohol Histogram")
-
-plot3 <- ggplot(data, aes(x=sulphates)) +
-          geom_bar(colour="#333333", fill="#33FF99") +
-          ggtitle("Sulphates Histogram")
-
-plot4 <- ggplot(data, aes(x=pH)) +
-          geom_bar(colour="#333333", fill="#CC3333") +
-          ggtitle("pH Histogram")
-
-multiplot(plot1, plot2, plot3, plot4)
-  
-```
-
-### Bar plots for Quality, Alcohol, Sulphates, and pH
-
-
-### Plot Two
-```{r echo=FALSE, Plot_Two}
-
-# box plot -- quality by type
-plot1 <- ggplot(data, aes(x=type, y=quality, fill=type)) +
-          geom_boxplot() + ggtitle("Box Plot for Quality by Wine Type")
-
-# box plot -- pH by type
-plot2 <- ggplot(data, aes(x=type, y=pH, fill=type)) +
-          geom_boxplot() + ggtitle("Box Plot for pH by Wine Type")
-
-multiplot(plot1, plot2)
-
-# correlation matrix
 
 cex.before <- par("cex")
 par(cex = 0.7)
@@ -358,30 +285,29 @@ corrplot(mcor, method="color",
             shade.col=NA, tl.col="black", tl.srt=45, order="FPC",
             col=col(50), addCoef.col="black", addcolorlabel="yes")
 par(cex = cex.before)
+  
+```
+
+### Correlation matrix for all variables with labeled correlation values
+
+
+### Plot Two
+```{r echo=FALSE, Plot_Two}
+
+
 
 
 ```
 
-### Correlation Matrix
+### title
 
 
 ### Plot Three
 ```{r echo=FALSE, Plot_Three}
-plot1 <- ggplot(data, aes(x=pH, y=quality, color=type)) + geom_point(shape=1) +
-          scale_colour_hue(l=75) +
-          geom_smooth(method=lm,   # Add linear regression lines
-              se=FALSE, fullrange=TRUE) + # extend the regression lines
-          ggtitle("Scatter Plot by Wine Type -- pH vs. quality")
 
-plot2 <- ggplot(data, aes(x=pH, y=alcohol, colour=type)) +
-            geom_point(alpha=.3) +
-            geom_smooth(alpha=.2, size=1, method='loess') +
-            ggtitle("Scatter Plot by Wine Type -- pH vs. alcohol")
-  
-multiplot(plot1, plot2)
 ```
 
-### Multivariate plots for wine type and pH vs quality/alcohol
+### title
 
 ------
 
