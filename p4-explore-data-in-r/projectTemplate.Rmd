@@ -177,6 +177,7 @@ We'll first create a box plot by quality and wine type to see if quality ratings
 
 ```{r echo=FALSE, Bivariate_Plots}
 # box plot -- quality by type
+
 box_plot1 <- ggplot(data, aes(x=type, y=quality, fill=type)) +
   geom_boxplot() + ggtitle("Box Plot for Quality by Wine Type") +
   labs(subtitle="White Wine has one more outlier than red red
@@ -187,7 +188,11 @@ box_plot2 <- ggplot(data, aes(x=type, y=pH, fill=type)) +
           geom_boxplot() + ggtitle("Box Plot for pH by Wine Type")+
           labs(subtitle="Red wine generally has a larger pH than white wine")
 
-print (box_plot1); print (box_plot2)
+box_plot3 <- ggplot(data, aes(x=type, y=alcohol, fill=type)) +
+          geom_boxplot() + ggtitle("Box Plot for pH by Wine Type")+
+          labs(subtitle="White wine generally has a slightly higher alcohol value than red")
+
+print (box_plot1); print (box_plot2); print (box_plot3)
 
 # correlation matrix
 # for reference, see:
@@ -225,9 +230,17 @@ The strongest relationship was between total.sulfur.dioxide and free.sulfur.diox
 
 ```{r echo=FALSE, Multivariate_Plots}
 
+# ggpairs -- part 1
+# I split the columns up because the graph was getting too big
+# I chose the variables that I thought were most interesting
 ggpairs(data,
         columns=c('density', 'pH', 'sulphates', 'alcohol', 'quality'), # columns to include in plot
-        title='Wine GGpairs plot', # title of the plot
+        title='Wine GGpairs plot - selected columns', # title of the plot
+        mapping=ggplot2::aes(colour = type)) # how to segment the plot
+
+# ggpairs -- part 2 (look at all columns)
+ggpairs(data,
+        title='Wine GGpairs plot - all columns', # title of the plot
         mapping=ggplot2::aes(colour = type)) # how to segment the plot
 
 # bar graphs
@@ -242,7 +255,6 @@ plot2 <- ggplot(data, aes(x=pH, y=alcohol, fill=type)) +
 plot1; plot2
 
 # scatter plot by wine type
-
 ggplot(data,aes(x=pH, y=alcohol, colour=type)) +
     geom_point(alpha=.3) +
     geom_smooth(alpha=.25, size=1) +
@@ -250,7 +262,13 @@ ggplot(data,aes(x=pH, y=alcohol, colour=type)) +
     labs(subtitle = 'For white wines, pH vs. alcohol stays relatively steady,
                 but for red wines, alcohol starts to increast at a pH of 3.5')
 
-
+# scatter grid
+ggplot(data, aes(x=pH, y=alcohol, colour = factor(quality))) +
+  geom_point() +
+  facet_grid(quality ~ type) +
+  labs(title = 'pH vs alcohol scatterplot (factored by type and quality)',
+      subtitle = 'Correlation between pH and alcohol appears to change
+                  by quality level and wine type')
 
 ```
 
@@ -261,6 +279,8 @@ ggplot(data,aes(x=pH, y=alcohol, colour=type)) +
 ### Were there any interesting or surprising interactions between features?
 
 The relationship between alcohol and pH was positive for red wines at a pH level greater than 3.5.  Overall, the relationship between pH and quality did not have a very positive relationship for white wines.  However, for red wines, there was a slight negative relationship between quality and pH for red wines.
+
+When I looked at the scatterplot for alcohol and pH segmented by wine type and quality, it appears as though for quality ratings for 3, 8, and 9, there was a somewhat positive relationship between pH and alcohol, alghough this may also be due to the fact that there are fewer observations at these levels.  It's also interesting to note that red wine had zero observations that were rated a 9.
 
 ### OPTIONAL: Did you create any models with your dataset? Discuss the strengths and limitations of your model.
 
@@ -273,7 +293,8 @@ The relationship between alcohol and pH was positive for red wines at a pH level
 
 ggplot(data, aes(x=type, y=pH, fill=type)) +
           geom_boxplot() + ggtitle("Box Plot for pH by Wine Type")+
-          labs(subtitle="Red wine generally has a larger pH than white wine")
+          labs(subtitle="Red wine generally has a larger pH than white wine") +
+    xlab('wine type') + ylab('pH level')
   
 ```
 
@@ -288,23 +309,33 @@ ggplot(data,aes(x=pH, y=alcohol, colour=type)) +
     geom_smooth(alpha=.25, size=1) +
     ggtitle("pH and Alcohol Scatterplot by Wine Type") +
     labs(subtitle = 'For white wines, pH vs. alcohol stays relatively steady,
-                but for red wines, alcohol starts to increast at a pH of 3.5')
+                but for red wines, alcohol starts to increast at a pH of 3.5') +
+    ylab('alcohol (% ABV)') + xlab('pH level')
 
 
 ```
 
-### title
+### pH and Alcohol Scatterplot by Wine Type
 
 
 ### Plot Three
 ```{r echo=FALSE, Plot_Three}
 
+ggplot(data, aes(x=pH, y=alcohol, colour = factor(quality))) +
+  geom_point() +
+  facet_grid(quality ~ type) +
+  labs(title = 'pH and Alcohol scatterplot (factored by type and quality)',
+      subtitle = 'Correlation between pH and alcohol appears to change
+                  by quality level and wine type') +
+  ylab('alcohol (% ABV)') + xlab('pH level')
+
 ```
 
-### title
+### pH and Alcohol scatterplot (factored by type and quality)
 
 ------
 
 # Reflection
+One of the difficult things about this dataset was that there were quite a few columns and I didn't really know how to start looking at it, especially since my knowledge of wine is non-existent. Also, since most wines were rated a 5, 6, or 7, it was somewhat difficult to see what qualities would rate a wine a 9; as we can see in plot three, there are no red wines that were rated a 9 so I couldn't do a comparison there.  Otherwise, I enjoyed analysing this dataset and I think the large number of numerical data made this easier to analyse than say, a dataset with purely categorical values.
 
-This was an unbalanced dataset (there were more white wines in the data than red wines) but there were a couple of interesting observations nonetheless.  Quality had fairly low correlation values with all features except for alcohol (correlation = 0.44).  Looking at box plots by type and quality, the majority of red and white wines were rated a 5 or 6, although white wines had more outliers that were rated an 8 or 9. Red wines were also less acidic than white wines in general.
+For future work, I would also like to attempt to predict a wine's quality rating based on the other provided variables.  Not one variable had a very strong correlation with quality. Alcohol had the highest correlation value with quality at 0.44.
