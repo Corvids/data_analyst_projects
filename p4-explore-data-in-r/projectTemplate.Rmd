@@ -1,6 +1,22 @@
 White and Red Wine Quality by Jennifer Joo
 ========================================================
 
+For this project, we will look at a dataset of red and white verde wine samples.  The variables in the dataset include:
+
+fixed acidity 
+volatile acidity 
+citric acid 
+residual sugar 
+chlorides 
+free sulfur dioxide 
+total sulfur dioxide 
+density 
+pH 
+sulphates 
+alcohol
+quality (score between 0 and 10)
+type (red, white)
+
 ```{r echo=FALSE, message=FALSE, warning=FALSE, packages}
 # Load all of the packages that you end up using
 # in your analysis in this code chunk.
@@ -28,6 +44,7 @@ knitr::opts_chunk$set(fig.width=12, fig.height=8, fig.path='Figs/',
 
 ```{r echo=FALSE, Load_the_Data}
 # data source: http://archive.ics.uci.edu/ml/datasets/Wine+Quality
+# my wd: C:/Users/jjoo/Desktop/udacity_data_analyst_projects/p4-explore-data-in-r
 
 # Load the Data
 red <- read.csv("winequality-red.csv", sep = ";")
@@ -84,23 +101,73 @@ multiplot <- function(..., plotlist=NULL, file, cols=1, layout=NULL) {
 
 # Univariate Plots Section
 ```{r echo=FALSE, Univariate_Plots}
+# hist plots for fixed.acidity, volatile.acidity, citric.acid, and residual.sugar
+fixed.acidity_hist <- ggplot(data, aes(x=fixed.acidity)) +
+          geom_bar(colour="#2eaaff", fill="#6666FF") +
+          ggtitle("Fixed Acidity Histogram") +
+          labs(subtitle="right skewed distribution")
 
-plot1 <- ggplot(data, aes(x=quality)) +
-          geom_bar(colour="#333333", fill="#6666FF") +
-          ggtitle("Quality Histogram")
+volatile.acidity_hist <- ggplot(data, aes(x=volatile.acidity)) +
+          geom_bar(colour="#333333", fill="#f4b90c") +
+          ggtitle("Volatile Acidity Histogram") +
+          labs(subtitle="right skewed distribution")
 
-plot2 <- ggplot(data, aes(x=alcohol)) +
-          geom_bar(colour="#333333", fill="#3399FF") +
-          ggtitle("Alcohol Histogram")
+citric.acid_hist <- ggplot(data, aes(x=citric.acid)) +
+          geom_bar(colour="#333333", fill="#ed7aff") +
+          ggtitle("Sulphates Histogram") +
+          labs(subtitle="right skewed distribution")
 
-plot3 <- ggplot(data, aes(x=sulphates)) +
-          geom_bar(colour="#333333", fill="#33FF99") +
+residual.sugar_hist <- ggplot(data, aes(x=residual.sugar)) +
+          geom_bar(colour="#333333", fill="#01ba55") +
+          ggtitle("Residual Sugar Histogram")
+
+multiplot(fixed.acidity_hist, volatile.acidity_hist, citric.acid_hist, residual.sugar_hist)
+
+# hist plots for chlorides, free.sulfur.dioxide, total.sulfur.dioxide, and density
+chlorides_hist <- ggplot(data, aes(x=chlorides)) +
+          geom_bar(colour="#333333", fill="#b4006d") +
+          ggtitle("Chlorides Histogram")
+
+free.sulfur.dioxide_hist <- ggplot(data, aes(x=free.sulfur.dioxide)) +
+          geom_bar(colour="#333333", fill="#728f00") +
+          ggtitle("Free Sulfur Dioxide Histogram")
+
+total.sulfur.dioxide_hist <- ggplot(data, aes(x=total.sulfur.dioxide)) +
+          geom_bar(colour="#333333", fill="#ff4887") +
+          ggtitle("Total Sulfur Dioxide Histogram")
+
+density_hist <- ggplot(data, aes(x=density)) +
+          geom_bar(colour="#333333", fill="#00b0a3") +
+          ggtitle("Density Histogram")
+
+multiplot(chlorides_hist, free.sulfur.dioxide_hist, total.sulfur.dioxide_hist, density_hist)
+
+
+# hist plots for pH, free.sulfur.dioxide, total.sulfur.dioxide, and density
+pH_hist <- ggplot(data, aes(x=pH)) +
+          geom_bar(colour="#333333", fill="#a31927") +
+          ggtitle("pH Histogram")
+
+sulphates_hist <- ggplot(data, aes(x=sulphates)) +
+          geom_bar(colour="#333333", fill="#476697") +
           ggtitle("Sulphates Histogram")
 
-plot4 <- ggplot(data, aes(x=pH)) +
-          geom_bar(colour="#333333", fill="#CC3333") +
-          ggtitle("pH Histogram")
-multiplot(plot1, plot2, plot3, plot4)
+alcohol_hist <- ggplot(data, aes(x=alcohol)) +
+          geom_bar(colour="#333333", fill="#ffb35c") +
+          ggtitle("Alcohol Histogram")
+
+quality_hist <- ggplot(data, aes(x=quality)) +
+          geom_bar(colour="#333333", fill="#b464c0") +
+          ggtitle("Quality Histogram")
+
+multiplot(pH_hist, sulphates_hist, alcohol_hist, quality_hist)
+
+
+# histogram for wine type
+
+ggplot(data, aes(x=type)) +
+    geom_bar(colour="#333333", fill="#6b7fce") +
+    ggtitle("Wine Type Histogram")
 
 ```
 
