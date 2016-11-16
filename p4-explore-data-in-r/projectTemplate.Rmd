@@ -33,6 +33,7 @@ library(ggplot2)
 library(knitr)
 library(dplyr)
 library(corrplot)
+library(GGally)
 
 ```
 
@@ -204,11 +205,6 @@ corrplot(mcor, method="color",
 par(cex = cex.before)
 
 
-# scatterplot matrix for quality, pH, 
-
-ggpairs(df_corr, alpha=0.4) +
-    geom_smooth(method="lm")
-
 ```
 
 # Bivariate Analysis
@@ -229,6 +225,11 @@ The strongest relationship was between total.sulfur.dioxide and free.sulfur.diox
 
 ```{r echo=FALSE, Multivariate_Plots}
 
+ggpairs(data,
+        columns=c('density', 'pH', 'sulphates', 'alcohol', 'quality'), # columns to include in plot
+        title='Wine GGpairs plot', # title of the plot
+        mapping=ggplot2::aes(colour = type)) # how to segment the plot
+
 # bar graphs
 plot1 <- ggplot(data, aes(x=quality, y=alcohol, fill=type)) +
           geom_bar(stat="identity") +
@@ -236,28 +237,20 @@ plot1 <- ggplot(data, aes(x=quality, y=alcohol, fill=type)) +
 
 plot2 <- ggplot(data, aes(x=pH, y=alcohol, fill=type)) +
           geom_bar(stat="identity") +
-          ggtitle("Bar Plot for alcohol segmented by pH and wine type")
+          ggtitle("Bar Plot for alcohol and pH by wine type")
 
-multiplot(plot1, plot2)
+plot1; plot2
 
-# scatter plots and regression lines
-plot1 <- ggplot(data, aes(x=pH, y=quality, color=type)) + geom_point(shape=1) +
-          scale_colour_hue(l=75) +
-          geom_smooth(method=lm,   # Adds regression lines
-          se=FALSE, fullrange=TRUE) # extenda the regression lines
+# scatter plot by wine type
 
-plot2 <- ggplot(data, aes(x=pH, y=alcohol, colour=type)) +
-            geom_point(alpha=.3) +
-            geom_smooth(alpha=.2, size=1, method='loess')
+ggplot(data,aes(x=pH, y=alcohol, colour=type)) +
+    geom_point(alpha=.3) +
+    geom_smooth(alpha=.25, size=1) +
+    ggtitle("pH and Alcohol Scatterplot by Wine Type") +
+    labs(subtitle = 'For white wines, pH vs. alcohol stays relatively steady,
+                but for red wines, alcohol starts to increast at a pH of 3.5')
 
-# bar graphs faceted by quality
-plot3 <-  ggplot(data, aes(x=pH, fill=quality)) +
-            geom_histogram(colour="grey") +
-            facet_grid(quality ~ .)
-  
-multiplot(plot1, plot2)
 
-plot3
 
 ```
 
@@ -278,23 +271,24 @@ The relationship between alcohol and pH was positive for red wines at a pH level
 ### Plot One
 ```{r echo=FALSE, Plot_One}
 
-cex.before <- par("cex")
-par(cex = 0.7)
-col <- colorRampPalette(c("#BB4444", "#EE9988", "#FFFFFF", "#77AADD", "#4477AA"))
-corrplot(mcor, method="color",
-            shade.col=NA, tl.col="black", tl.srt=45, order="FPC",
-            col=col(50), addCoef.col="black", addcolorlabel="yes")
-par(cex = cex.before)
+ggplot(data, aes(x=type, y=pH, fill=type)) +
+          geom_boxplot() + ggtitle("Box Plot for pH by Wine Type")+
+          labs(subtitle="Red wine generally has a larger pH than white wine")
   
 ```
 
-### Correlation matrix for all variables with labeled correlation values
+### Box Plot for pH by Wine Type
 
 
 ### Plot Two
 ```{r echo=FALSE, Plot_Two}
 
-
+ggplot(data,aes(x=pH, y=alcohol, colour=type)) +
+    geom_point(alpha=.3) +
+    geom_smooth(alpha=.25, size=1) +
+    ggtitle("pH and Alcohol Scatterplot by Wine Type") +
+    labs(subtitle = 'For white wines, pH vs. alcohol stays relatively steady,
+                but for red wines, alcohol starts to increast at a pH of 3.5')
 
 
 ```
