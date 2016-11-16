@@ -17,6 +17,8 @@ alcohol
 quality (score between 0 and 10)
 type (red, white)
 
+We will begin the analysis by looking at the distribution of each of the above variables individually to see if they're skewed, contain outliers, etc.
+
 ```{r echo=FALSE, message=FALSE, warning=FALSE, packages}
 # Load all of the packages that you end up using
 # in your analysis in this code chunk.
@@ -53,9 +55,6 @@ white <- read.csv("winequality-white.csv", sep = ";")
 white$type <- 'white'
 
 data <- rbind(red, white)
-
-str(data)
-summary(data)
 
 ```
 
@@ -101,73 +100,89 @@ multiplot <- function(..., plotlist=NULL, file, cols=1, layout=NULL) {
 
 # Univariate Plots Section
 ```{r echo=FALSE, Univariate_Plots}
+# look at the data frame
+str(data)
+
+# look at basic summary statistics for this dataset
+summary(data)
+
 # hist plots for fixed.acidity, volatile.acidity, citric.acid, and residual.sugar
 fixed.acidity_hist <- ggplot(data, aes(x=fixed.acidity)) +
           geom_bar(colour="#2eaaff", fill="#6666FF") +
           ggtitle("Fixed Acidity Histogram") +
-          labs(subtitle="right skewed distribution")
+          labs(subtitle="slight right skewed distribution")
 
 volatile.acidity_hist <- ggplot(data, aes(x=volatile.acidity)) +
           geom_bar(colour="#333333", fill="#f4b90c") +
           ggtitle("Volatile Acidity Histogram") +
-          labs(subtitle="right skewed distribution")
+          labs(subtitle="slight right skewed distribution")
 
 citric.acid_hist <- ggplot(data, aes(x=citric.acid)) +
           geom_bar(colour="#333333", fill="#ed7aff") +
           ggtitle("Sulphates Histogram") +
-          labs(subtitle="right skewed distribution")
+          labs(subtitle="slight right skewed distribution with approx. 300 obs having a sulphates value of ~0.5")
 
 residual.sugar_hist <- ggplot(data, aes(x=residual.sugar)) +
           geom_bar(colour="#333333", fill="#01ba55") +
-          ggtitle("Residual Sugar Histogram")
+          ggtitle("Residual Sugar Histogram") +
+          labs(subtitle="extremely right skewed distribution")
 
-multiplot(fixed.acidity_hist, volatile.acidity_hist, citric.acid_hist, residual.sugar_hist)
+fixed.acidity_hist; volatile.acidity_hist; citric.acid_hist; residual.sugar_hist
 
 # hist plots for chlorides, free.sulfur.dioxide, total.sulfur.dioxide, and density
 chlorides_hist <- ggplot(data, aes(x=chlorides)) +
           geom_bar(colour="#333333", fill="#b4006d") +
-          ggtitle("Chlorides Histogram")
+          ggtitle("Chlorides Histogram") +
+          labs(subtitle="distributed with two distinct peaks in the data")
 
 free.sulfur.dioxide_hist <- ggplot(data, aes(x=free.sulfur.dioxide)) +
           geom_bar(colour="#333333", fill="#728f00") +
-          ggtitle("Free Sulfur Dioxide Histogram")
+          ggtitle("Free Sulfur Dioxide Histogram")  +
+          labs(subtitle="slightly right skewed distribution")
 
 total.sulfur.dioxide_hist <- ggplot(data, aes(x=total.sulfur.dioxide)) +
           geom_bar(colour="#333333", fill="#ff4887") +
-          ggtitle("Total Sulfur Dioxide Histogram")
+          ggtitle("Total Sulfur Dioxide Histogram") +
+          labs(subtitle="distributed with two distinct peaks in the data")
 
 density_hist <- ggplot(data, aes(x=density)) +
           geom_bar(colour="#333333", fill="#00b0a3") +
-          ggtitle("Density Histogram")
+          ggtitle("Density Histogram") +
+          labs(subtitle="distribution with many peaks")
 
-multiplot(chlorides_hist, free.sulfur.dioxide_hist, total.sulfur.dioxide_hist, density_hist)
+chlorides_hist; free.sulfur.dioxide_hist; total.sulfur.dioxide_hist; density_hist
 
 
 # hist plots for pH, free.sulfur.dioxide, total.sulfur.dioxide, and density
 pH_hist <- ggplot(data, aes(x=pH)) +
           geom_bar(colour="#333333", fill="#a31927") +
-          ggtitle("pH Histogram")
+          ggtitle("pH Histogram") +
+          labs(subtitle="mostly normal distribution")
 
 sulphates_hist <- ggplot(data, aes(x=sulphates)) +
           geom_bar(colour="#333333", fill="#476697") +
-          ggtitle("Sulphates Histogram")
+          ggtitle("Sulphates Histogram") +
+          labs(subtitle="slightly right skewed distribution")
 
 alcohol_hist <- ggplot(data, aes(x=alcohol)) +
           geom_bar(colour="#333333", fill="#ffb35c") +
-          ggtitle("Alcohol Histogram")
+          ggtitle("Alcohol Histogram")+
+          labs(subtitle="distribution with many peaks")
 
 quality_hist <- ggplot(data, aes(x=quality)) +
           geom_bar(colour="#333333", fill="#b464c0") +
-          ggtitle("Quality Histogram")
+          ggtitle("Quality Histogram") +
+          labs(subtitle="mostly normal distribution with most data points having a quality of 6")
 
-multiplot(pH_hist, sulphates_hist, alcohol_hist, quality_hist)
+pH_hist; sulphates_hist; alcohol_hist; quality_hist
 
 
 # histogram for wine type
 
 ggplot(data, aes(x=type)) +
     geom_bar(colour="#333333", fill="#6b7fce") +
-    ggtitle("Wine Type Histogram")
+    ggtitle("Wine Type Histogram") +
+    labs(subtitle="dataset has more white wine samples than red")
 
 ```
 
@@ -179,11 +194,11 @@ There are 6,497 observations and 13 variables.
 
 ### What is/are the main feature(s) of interest in your dataset?
 
-The main features of interest are quality, which is a score between 0 and 10, and type, a created variable that indicates whether the wine is red or white.
+The main features of interest are quality, which is a score between 0 and 10, and type, a created variable that indicates whether the wine is red or white.  However, it is important to note that available quality scores range from 3 to 9.
 
 ### What other features in the dataset do you think will help support your investigation into your feature(s) of interest?
 
-Without looking further at the data set, I think that pH, quality, and alcohol may be important.
+Without looking further at the data set, I think that pH and alcohol may be important.
 
 ### Did you create any new variables from existing variables in the dataset?
 
@@ -191,20 +206,23 @@ Yes, I merge the red wine and white wine datasets and created the variable "type
 
 ### Of the features you investigated, were there any unusual distributions? Did you perform any operations on the data to tidy, adjust, or change the form of the data? If so, why did you do this?
 
-The distribution for chlorides showed a right skew.
+There are more white wine observations than red wine observations and this may affect the data analysis and any plots to follow but I didn't adjust this distribution, since I didn't want to exclude any data from the analysis.  The distribution for alcohol had many peaks, which I thought was unusual but if I had to hypothesize, I would say that maybe wines were more likely to have certain alcohol levels or this distribution is due to the type of wine (white or red).  The distribution for sulphates also had a sudden peak at around 5.0; this may be due to how the data was collected.
 
 
 # Bivariate Plots Section
 ```{r echo=FALSE, Bivariate_Plots}
 # box plot -- quality by type
-plot1 <- ggplot(data, aes(x=type, y=quality, fill=type)) +
-          geom_boxplot() + ggtitle("Box Plot for Quality by Wine Type")
+box_plot1 <- ggplot(data, aes(x=type, y=quality, fill=type)) +
+  geom_boxplot() + ggtitle("Box Plot for Quality by Wine Type") +
+  labs(subtitle="White Wine has one more outlier than red red
+                but otherwise, they have about the same distribution")
 
 # box plot -- pH by type
-plot2 <- ggplot(data, aes(x=type, y=pH, fill=type)) +
-          geom_boxplot() + ggtitle("Box Plot for pH by Wine Type")
+box_plot2 <- ggplot(data, aes(x=type, y=pH, fill=type)) +
+          geom_boxplot() + ggtitle("Box Plot for pH by Wine Type")+
+          labs(subtitle="Red wine generally has a larger pH than white wine")
 
-multiplot(plot1, plot2)
+multiplot(box_plot1, box_plot2)
 
 # correlation matrix
 # for reference, see:
@@ -220,6 +238,12 @@ corrplot(mcor, method="color",
             shade.col=NA, tl.col="black", tl.srt=45, order="FPC",
             col=col(50), addCoef.col="black", addcolorlabel="yes")
 par(cex = cex.before)
+
+
+# scatterplot matrix
+
+plotmatrix(df_corr, colour="gray20") +
+    geom_smooth(method="lm")
 
 ```
 
