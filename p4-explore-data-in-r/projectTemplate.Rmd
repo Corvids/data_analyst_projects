@@ -244,15 +244,9 @@ ggpairs(data,
         mapping=ggplot2::aes(colour = type)) # how to segment the plot
 
 # bar graphs
-plot1 <- ggplot(data, aes(x=quality, y=alcohol, fill=type)) +
-          geom_bar(stat="identity") +
-          ggtitle("Bar Plot for alcohol segmented by quality and wine type")
-
-plot2 <- ggplot(data, aes(x=pH, y=alcohol, fill=type)) +
-          geom_bar(stat="identity") +
-          ggtitle("Bar Plot for alcohol and pH by wine type")
-
-plot1; plot2
+ggplot(data, aes(x=quality, y=alcohol, fill=type)) +
+    geom_bar(stat="identity") +
+    ggtitle("Bar Plot for alcohol segmented by quality and wine type")
 
 # scatter plot by wine type
 ggplot(data,aes(x=pH, y=alcohol, colour=type)) +
