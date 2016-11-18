@@ -70,22 +70,22 @@ summary(data)
 
 # hist plots for fixed.acidity, volatile.acidity, citric.acid, and residual.sugar
 fixed.acidity_hist <- ggplot(data, aes(x=fixed.acidity)) +
-          geom_bar(colour="#2eaaff", fill="#6666FF") +
+          geom_histogram(colour="#2eaaff", fill="#6666FF") +
           ggtitle("Fixed Acidity Histogram") +
           labs(subtitle="slight right skewed distribution")
 
 volatile.acidity_hist <- ggplot(data, aes(x=volatile.acidity)) +
-          geom_bar(colour="#333333", fill="#f4b90c") +
+          geom_histogram(colour="#333333", fill="#f4b90c", bins = 70) +
           ggtitle("Volatile Acidity Histogram") +
           labs(subtitle="slight right skewed distribution")
 
 citric.acid_hist <- ggplot(data, aes(x=citric.acid)) +
-          geom_bar(colour="#333333", fill="#ed7aff") +
+          geom_histogram(colour="#333333", fill="#ed7aff") +
           ggtitle("Sulphates Histogram") +
           labs(subtitle="slight right skewed distribution with approx. 300 obs having a sulphates value of ~0.5")
 
 residual.sugar_hist <- ggplot(data, aes(x=residual.sugar)) +
-          geom_bar(colour="#333333", fill="#01ba55") +
+          geom_histogram(colour="#333333", fill="#01ba55") +
           ggtitle("Residual Sugar Histogram") +
           labs(subtitle="extremely right skewed distribution")
 
@@ -93,22 +93,22 @@ fixed.acidity_hist; volatile.acidity_hist; citric.acid_hist; residual.sugar_hist
 
 # hist plots for chlorides, free.sulfur.dioxide, total.sulfur.dioxide, and density
 chlorides_hist <- ggplot(data, aes(x=chlorides)) +
-          geom_bar(colour="#333333", fill="#b4006d") +
+          geom_histogram(colour="#333333", fill="#b4006d") +
           ggtitle("Chlorides Histogram") +
           labs(subtitle="distributed with two distinct peaks in the data")
 
 free.sulfur.dioxide_hist <- ggplot(data, aes(x=free.sulfur.dioxide)) +
-          geom_bar(colour="#333333", fill="#728f00") +
+          geom_histogram(colour="#333333", fill="#728f00") +
           ggtitle("Free Sulfur Dioxide Histogram")  +
           labs(subtitle="slightly right skewed distribution")
 
 total.sulfur.dioxide_hist <- ggplot(data, aes(x=total.sulfur.dioxide)) +
-          geom_bar(colour="#333333", fill="#ff4887") +
+          geom_histogram(colour="#333333", fill="#ff4887") +
           ggtitle("Total Sulfur Dioxide Histogram") +
           labs(subtitle="distributed with two distinct peaks in the data")
 
 density_hist <- ggplot(data, aes(x=density)) +
-          geom_bar(colour="#333333", fill="#00b0a3") +
+          geom_histogram(colour="#333333", fill="#00b0a3") +
           ggtitle("Density Histogram") +
           labs(subtitle="distribution with many peaks")
 
@@ -117,17 +117,17 @@ chlorides_hist; free.sulfur.dioxide_hist; total.sulfur.dioxide_hist; density_his
 
 # hist plots for pH, free.sulfur.dioxide, total.sulfur.dioxide, and density
 pH_hist <- ggplot(data, aes(x=pH)) +
-          geom_bar(colour="#333333", fill="#a31927") +
+          geom_histogram(colour="#333333", fill="#a31927") +
           ggtitle("pH Histogram") +
           labs(subtitle="mostly normal distribution")
 
 sulphates_hist <- ggplot(data, aes(x=sulphates)) +
-          geom_bar(colour="#333333", fill="#476697") +
+          geom_histogram(colour="#333333", fill="#476697") +
           ggtitle("Sulphates Histogram") +
           labs(subtitle="slightly right skewed distribution")
 
 alcohol_hist <- ggplot(data, aes(x=alcohol)) +
-          geom_bar(colour="#333333", fill="#ffb35c") +
+          geom_histogram(colour="#333333", fill="#ffb35c") +
           ggtitle("Alcohol Histogram")+
           labs(subtitle="distribution with many peaks")
 
