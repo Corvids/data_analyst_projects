@@ -67,7 +67,11 @@ str(data)
 
 # look at basic summary statistics for this dataset
 summary(data)
+```
 
+We have a categorical variable and 12 numeric/integer variables. The single categorical variable is 'type', which indicates whether a datapoint is associated with a red or white wine.
+
+```{r echo=FALSE}
 # hist plots for fixed.acidity, volatile.acidity, citric.acid, and residual.sugar
 fixed.acidity_hist <- ggplot(data, aes(x=fixed.acidity)) +
           geom_histogram(colour="#2eaaff", fill="#6666FF") +
