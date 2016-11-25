@@ -78,6 +78,11 @@ fixed.acidity_hist <- ggplot(data, aes(x=fixed.acidity)) +
           ggtitle("Fixed Acidity Histogram") +
           labs(subtitle="slight right skewed distribution")
 
+fixed.acidity_hist
+
+```
+The fixed acidity graph is approximately normal with a slight right skew.
+```{r echo=FALSE}
 volatile.acidity_hist <- ggplot(data, aes(x=volatile.acidity)) +
           geom_histogram(colour="#333333", fill="#f4b90c", bins = 70) +
           ggtitle("Volatile Acidity Histogram") +
@@ -93,8 +98,11 @@ residual.sugar_hist <- ggplot(data, aes(x=residual.sugar)) +
           ggtitle("Residual Sugar Histogram") +
           labs(subtitle="extremely right skewed distribution")
 
-fixed.acidity_hist; volatile.acidity_hist; citric.acid_hist; residual.sugar_hist
+volatile.acidity_hist; citric.acid_hist; residual.sugar_hist
+```
 
+
+```{r echo=FALSE}
 # hist plots for chlorides, free.sulfur.dioxide, total.sulfur.dioxide, and density
 chlorides_hist <- ggplot(data, aes(x=chlorides)) +
           geom_histogram(colour="#333333", fill="#b4006d") +
