@@ -88,6 +88,11 @@ volatile.acidity_hist <- ggplot(data, aes(x=volatile.acidity)) +
           ggtitle("Volatile Acidity Histogram") +
           labs(subtitle="slight right skewed distribution")
 
+
+```
+
+
+```{r echo=FALSE}
 citric.acid_hist <- ggplot(data, aes(x=citric.acid)) +
           geom_histogram(colour="#333333", fill="#ed7aff") +
           ggtitle("Sulphates Histogram") +
