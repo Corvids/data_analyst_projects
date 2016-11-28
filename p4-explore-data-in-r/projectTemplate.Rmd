@@ -88,7 +88,7 @@ volatile.acidity_hist <- ggplot(data, aes(x=volatile.acidity)) +
           ggtitle("Volatile Acidity Histogram") +
           labs(subtitle="slight right skewed distribution")
 
-
+volatile.acidity_hist
 ```
 
 
@@ -97,13 +97,17 @@ citric.acid_hist <- ggplot(data, aes(x=citric.acid)) +
           geom_histogram(colour="#333333", fill="#ed7aff") +
           ggtitle("Sulphates Histogram") +
           labs(subtitle="slight right skewed distribution with approx. 300 obs having a sulphates value of ~0.5")
+citric.acid_hist 
+```
 
+
+```{r echo=FALSE}
 residual.sugar_hist <- ggplot(data, aes(x=residual.sugar)) +
           geom_histogram(colour="#333333", fill="#01ba55") +
           ggtitle("Residual Sugar Histogram") +
           labs(subtitle="extremely right skewed distribution")
 
-volatile.acidity_hist; citric.acid_hist; residual.sugar_hist
+residual.sugar_hist
 ```
 
 
