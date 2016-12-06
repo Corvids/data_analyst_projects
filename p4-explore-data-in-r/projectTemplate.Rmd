@@ -69,46 +69,45 @@ str(data)
 summary(data)
 ```
 
-We have a categorical variable and 12 numeric/integer variables. The single categorical variable is 'type', which indicates whether a datapoint is associated with a red or white wine.
+We have a categorical variable and 12 numeric/integer variables. The single categorical variable is 'type', which indicates whether a datapoint is associated is a red or white wine.
 
 ```{r echo=FALSE}
 # hist plots for fixed.acidity, volatile.acidity, citric.acid, and residual.sugar
 fixed.acidity_hist <- ggplot(data, aes(x=fixed.acidity)) +
           geom_histogram(colour="#2eaaff", fill="#6666FF") +
-          ggtitle("Fixed Acidity Histogram") +
-          labs(subtitle="slight right skewed distribution")
+          ggtitle("Fixed Acidity Histogram")
 
 fixed.acidity_hist
 
 ```
-The fixed acidity graph is approximately normal with a slight right skew.
+The fixed acidity histogram is approximately normal with a slight right skew with a mean of about 6.
 ```{r echo=FALSE}
 volatile.acidity_hist <- ggplot(data, aes(x=volatile.acidity)) +
           geom_histogram(colour="#333333", fill="#f4b90c", bins = 70) +
-          ggtitle("Volatile Acidity Histogram") +
-          labs(subtitle="slight right skewed distribution")
+          ggtitle("Volatile Acidity Histogram")
 
 volatile.acidity_hist
 ```
 
+The fixed acidity histogram is approximately normal with a right skew with a mean of about 0.25.
 
 ```{r echo=FALSE}
 citric.acid_hist <- ggplot(data, aes(x=citric.acid)) +
           geom_histogram(colour="#333333", fill="#ed7aff") +
-          ggtitle("Sulphates Histogram") +
-          labs(subtitle="slight right skewed distribution with approx. 300 obs having a sulphates value of ~0.5")
+          ggtitle("Sulphates Histogram")
 citric.acid_hist 
 ```
+The citric acid histogram is approximately normal with a right skew with a mean of about 0.25.
 
 
 ```{r echo=FALSE}
 residual.sugar_hist <- ggplot(data, aes(x=residual.sugar)) +
           geom_histogram(colour="#333333", fill="#01ba55") +
-          ggtitle("Residual Sugar Histogram") +
-          labs(subtitle="extremely right skewed distribution")
+          ggtitle("Residual Sugar Histogram")
 
 residual.sugar_hist
 ```
+The citric acid histogram is somewhat normal with a right skew with a mean of about 2.
 
 
 ```{r echo=FALSE}
@@ -116,68 +115,86 @@ residual.sugar_hist
 chlorides_hist <- ggplot(data, aes(x=chlorides)) +
           geom_histogram(colour="#333333", fill="#b4006d") +
           ggtitle("Chlorides Histogram") +
-          labs(subtitle="distributed with two distinct peaks in the data")
+chlorides_hist
+```
 
+The chlorides histogram is approximately normal with a long right tail.
+
+```{r echo=FALSE}
 free.sulfur.dioxide_hist <- ggplot(data, aes(x=free.sulfur.dioxide)) +
           geom_histogram(colour="#333333", fill="#728f00") +
-          ggtitle("Free Sulfur Dioxide Histogram")  +
-          labs(subtitle="slightly right skewed distribution")
+          ggtitle("Free Sulfur Dioxide Histogram")
+free.sulfur.dioxide_hist
+```
+The free sulfur dioxide histogram is approximately normal with an outlier at ~290.
 
+```{r echo=FALSE}
 total.sulfur.dioxide_hist <- ggplot(data, aes(x=total.sulfur.dioxide)) +
           geom_histogram(colour="#333333", fill="#ff4887") +
-          ggtitle("Total Sulfur Dioxide Histogram") +
-          labs(subtitle="distributed with two distinct peaks in the data")
-
-density_hist <- ggplot(data, aes(x=density)) +
-          geom_histogram(colour="#333333", fill="#00b0a3") +
-          ggtitle("Density Histogram") +
-          labs(subtitle="distribution with many peaks")
-
-chlorides_hist; free.sulfur.dioxide_hist; total.sulfur.dioxide_hist; density_hist
-
-
-# hist plots for pH, free.sulfur.dioxide, total.sulfur.dioxide, and density
-pH_hist <- ggplot(data, aes(x=pH)) +
-          geom_histogram(colour="#333333", fill="#a31927") +
-          ggtitle("pH Histogram") +
-          labs(subtitle="mostly normal distribution")
-
-sulphates_hist <- ggplot(data, aes(x=sulphates)) +
-          geom_histogram(colour="#333333", fill="#476697") +
-          ggtitle("Sulphates Histogram") +
-          labs(subtitle="slightly right skewed distribution")
-
-alcohol_hist <- ggplot(data, aes(x=alcohol)) +
-          geom_histogram(colour="#333333", fill="#ffb35c") +
-          ggtitle("Alcohol Histogram")+
-          labs(subtitle="distribution with many peaks")
-
-quality_hist <- ggplot(data, aes(x=quality)) +
-          geom_bar(colour="#333333", fill="#b464c0") +
-          ggtitle("Quality Histogram") +
-          labs(subtitle="mostly normal distribution with most data points having a quality of 6")
-
-pH_hist; sulphates_hist; alcohol_hist; quality_hist
-
-
-# histogram for wine type
-
-ggplot(data, aes(x=type)) +
-    geom_bar(colour="#333333", fill="#6b7fce") +
-    ggtitle("Wine Type Histogram") +
-    labs(subtitle="dataset has more white wine samples than red")
+          ggtitle("Total Sulfur Dioxide Histogram")
+total.sulfur.dioxide_hist
 
 ```
+The total sulfur dioxide histogram has two peaks at around 20 and 120 with a few outliers above 300.
+
+```{r echo=FALSE}
+density_hist <- ggplot(data, aes(x=density)) +
+          geom_histogram(colour="#333333", fill="#00b0a3") +
+          ggtitle("Density Histogram")
+density_hist
+```
+The density histogram is somewhat normal with outliers at around 1.01 and 1.04
+
+```{r echo=FALSE}
+pH_hist <- ggplot(data, aes(x=pH)) +
+          geom_histogram(colour="#333333", fill="#a31927") +
+          ggtitle("pH Histogram")
+pH_hist
+```
+The pH histogram is approximately normal; it's interesting to note that all wines have a pH of about 4 or lower so all wines are at least somewhat acidic.
+
+```{r echo=FALSE}
+sulphates_hist <- ggplot(data, aes(x=sulphates)) +
+          geom_histogram(colour="#333333", fill="#476697") +
+          ggtitle("Sulphates Histogram")
+sulphates_hist
+```
+The sulphates histogram is approximately normal with a right skew.  Most values are less than 1.0
+
+```{r echo=FALSE}
+alcohol_hist <- ggplot(data, aes(x=alcohol)) +
+          geom_histogram(colour="#333333", fill="#ffb35c") +
+          ggtitle("Alcohol Histogram")
+alcohol_hist
+```
+The alcohol histogram is less normal looking than our other graphs; the largest peak is around 7 with a couple of smaller peaks at ~10 and ~14.
+```{r echo=FALSE}
+quality_hist <- ggplot(data, aes(x=quality)) +
+          geom_bar(colour="#333333", fill="#b464c0") +
+          ggtitle("Quality Histogram")
+quality_hist
+```
+
+The quality histogram is approximately normal; most wines have a rating of 6 and the second most common rating is a 5.  The unevent distribution here may affect our analysis later on since there are few wines rated a 3 or 9.
+
+```{r echo=FALSE}
+type_hist <- ggplot(data, aes(x=type)) +
+    geom_bar(colour="#333333", fill="#6b7fce") +
+    ggtitle("Wine Type Histogram")
+type_hist
+```
+
+There are about 3 times as many white wines as red wines, which is important to note since it will affect how later multivariate graphs may be perceived.
 
 # Univariate Analysis
 
 ### What is the structure of your dataset?
 
-There are 6,497 observations and 13 variables.
+There are 6,497 observations and 13 variables.  All but one variable ('type') have a data type of numeric or integer.  Most of the numeric/integer variables have an approximately normal distribution and most variables have some outliers.
 
 ### What is/are the main feature(s) of interest in your dataset?
 
-The main features of interest are quality, which is a score between 0 and 10, and type, a created variable that indicates whether the wine is red or white.  However, it is important to note that available quality scores range from 3 to 9.
+The main features of interest are quality, which is a score between 0 and 10, and type, a created variable that indicates whether the wine is red or white.  However, it is important to note that available quality scores range from 3 to 9.  The quality instagram is approximately normal although ideally, we would like an equal distribution of scores across both red and white wines.
 
 ### What other features in the dataset do you think will help support your investigation into your feature(s) of interest?
 
@@ -185,7 +202,7 @@ Without looking further at the data set, I think that pH and alcohol may be impo
 
 ### Did you create any new variables from existing variables in the dataset?
 
-Yes, I merge the red wine and white wine datasets and created the variable "type" to indicate which dataset the observations came from.  The possible values are "red" and "white".
+Yes, I merge the red wine and white wine datasets and created the variable "type" to indicate which dataset the observations came from.  The possible values are "red" and "white".  It's important to note that this dataset is unbalanced; there are about 3 times as many white wines as red wines in this dataset.
 
 ### Of the features you investigated, were there any unusual distributions? Did you perform any operations on the data to tidy, adjust, or change the form of the data? If so, why did you do this?
 
@@ -210,11 +227,22 @@ box_plot2 <- ggplot(data, aes(x=type, y=pH, fill=type)) +
           labs(subtitle="Red wine generally has a larger pH than white wine")
 
 box_plot3 <- ggplot(data, aes(x=type, y=alcohol, fill=type)) +
-          geom_boxplot() + ggtitle("Box Plot for pH by Wine Type")+
+          geom_boxplot() + ggtitle("Box Plot for Alcohol by Wine Type")+
           labs(subtitle="White wine generally has a slightly higher alcohol value than red")
 
 print (box_plot1); print (box_plot2); print (box_plot3)
 
+print('pH Quartiles for red and white wine: ')
+print(quantile(red$pH))
+print(quantile(white$pH))
+
+print('Alcohol Quartiles for red and white wine: ')
+print(quantile(red$alcohol))
+print(quantile(white$alcohol))
+
+```
+
+```{r echo=FALSE, Bivariate_Plots}
 # correlation matrix
 # for reference, see:
 # https://cran.r-project.org/web/packages/corrplot/vignettes/corrplot-intro.html
@@ -237,14 +265,20 @@ par(cex = cex.before)
 
 ### Talk about some of the relationships you observed in this part of the investigation. How did the feature(s) of interest vary with other features in the dataset?
 
-In the box plots, quality didn't vary by wine type; the majority of the datapoints had a quality level of 5 or 6, although there white wines had an outlier that had a quality of 9.  However, red wines were generally less acidic (had a higher pH value) than white wines.  White wines also had more outliers in this box plot distribution although there are also more observations for white wines, so this I wouldn't consider this too unusual.
+In the box plots, quality didn't vary much by wine type; the majority of the datapoints had a quality level of 5 or 6, although there white wines had an outlier that had a quality of 9.  This may be due to the fact that very few wines were rated a 3 or 9.
+
+However, it is interesting to note that red wines were generally less acidic (had a higher pH value) than white wines.  White wines also had more outliers in this box plot distribution although there are also more observations for white wines, so this I wouldn't consider this too unusual.  White wines had a median pH of 3.18 and red wines had a median pH of 3.31, with a difference of 0.13.
+
+White wines also had a somewhat higher alchol content and a larger interquartile range for alcohol level as well.  White wines had a median alcohol level of 10.2 and red a median alcohol level of 10.4.
 
 
 ### Did you observe any interesting relationships between the other features (not the main feature(s) of interest)?
 
 ### What was the strongest relationship you found?
 
-The strongest relationship was between total.sulfur.dioxide and free.sulfur.dioxide which has a correlation of 0.72.  The next strongest was between density and residual.sugar with a correlation of 0.55.
+The strongest relationship was between total.sulfur.dioxide and free.sulfur.dioxide which has a correlation of 0.72, which made sense since they were both measures of sulfur dioxide.  The next strongest was between density and residual.sugar with a correlation of 0.55.
+
+The two variables that had the largest negative correlation was alcohol and density.  The most interesting relationship was between quality and alcohol, which had a correlation coefficient of 0.44.
 
 
 # Multivariate Plots Section
@@ -258,32 +292,51 @@ ggpairs(data,
         columns=c('density', 'pH', 'sulphates', 'alcohol', 'quality'), # columns to include in plot
         title='Wine GGpairs plot - selected columns', # title of the plot
         mapping=ggplot2::aes(colour = type)) # how to segment the plot
+```
+For pH, sulphates, alcohol, and quality, red and white wines have similar distribution shapes although for pH and sulphates, red wines have a somewhat larger pH and sulphares median, which we saw in the bivariate plots section.
 
-# ggpairs -- part 2 (look at all columns)
-ggpairs(data,
-        title='Wine GGpairs plot - all columns', # title of the plot
-        mapping=ggplot2::aes(colour = type)) # how to segment the plot
+Red and white wines have different distributions when we look at density.  Red wines have a density distribution that is tall and narrow while white wines have a density distribution that is shorter and wider.  We also see two consistent outliers for white wines when we compare density to pH, sulphates, alcohol, and quality. 
 
+```{r echo=FALSE, Multivariate_Plots}
 # bar graphs
-ggplot(data, aes(x=quality, y=alcohol, fill=type)) +
-    geom_bar(stat="identity") +
+ggplot(data = data, aes(y = pH, x = factor(type))) +
+    geom_jitter(alpha = 0.4) +
+    geom_boxplot(alpha = 0.6, outlier.shape = NA) +
     ggtitle("Bar Plot for alcohol segmented by quality and wine type")
+```
 
+Wine wines are overall more acidic and more dense than white wines but there are also more white wine data points than red wine data points so this is expected.
+
+```{r echo=FALSE, Multivariate_Plots}
 # scatter plot by wine type
 ggplot(data,aes(x=pH, y=alcohol, colour=type)) +
     geom_point(alpha=.3) +
-    geom_smooth(alpha=.25, size=1) +
+    geom_smooth(alpha=.25, size=1, method = "loess", span = 0.9) +
     ggtitle("pH and Alcohol Scatterplot by Wine Type") +
     labs(subtitle = 'For white wines, pH vs. alcohol stays relatively steady,
                 but for red wines, alcohol starts to increast at a pH of 3.5')
+```
 
+There isn't a clear pattern between alcohol and pH either for red or white wine.  The line for red wine slants upward after a pH of 3.5 but this may be due to outliers.
+
+```{r echo=FALSE, Multivariate_Plots}
+ggplot(data, aes(x = pH, y = alcohol, colour=type)) +
+  geom_point() +
+  geom_density2d()
+
+```
+
+The centers for red wines and white wines for the pH vs alcohol graph are very close to one another.  The alcohol value for each center is around 7 and the pH center for white wines is around 3.2 and for red wines, it is around 3.6.  We saw in an earlier box plot that white wines are slightly more acidic than white wines.
+
+```{r echo=FALSE, Multivariate_Plots}
 # scatter grid
-ggplot(data, aes(x=pH, y=alcohol, colour = factor(quality))) +
+data_selectQual <- subset(data, quality >= 5 & quality <= 7)
+
+ggplot(data_selectQual, aes(x=pH, y=alcohol, colour = factor(quality))) +
   geom_point() +
   facet_grid(quality ~ type) +
   labs(title = 'pH vs alcohol scatterplot (factored by type and quality)',
-      subtitle = 'Correlation between pH and alcohol appears to change
-                  by quality level and wine type')
+      subtitle = 'Subsetted by quality levels of 5,6,7')
 
 ```
 
@@ -336,17 +389,18 @@ ggplot(data,aes(x=pH, y=alcohol, colour=type)) +
 ### Plot Three
 ```{r echo=FALSE, Plot_Three}
 
-ggplot(data, aes(x=pH, y=alcohol, colour = factor(quality))) +
+data_selectQual <- subset(data, quality >= 5 & quality <= 7)
+
+ggplot(data_selectQual, aes(x=pH, y=alcohol, colour = factor(quality))) +
   geom_point() +
   facet_grid(quality ~ type) +
-  labs(title = 'pH and Alcohol scatterplot (factored by type and quality)',
-      subtitle = 'Correlation between pH and alcohol appears to change
-                  by quality level and wine type') +
-  ylab('alcohol (% ABV)') + xlab('pH level')
+  labs(title = 'pH vs alcohol scatterplot (factored by type and quality)',
+      subtitle = 'Subsetted by quality levels of 5,6,7') +
+      ylab('alcohol (% ABV)') + xlab('pH level')
 
 ```
 
-### pH and Alcohol scatterplot (factored by type and quality)
+### pH and Alcohol scatterplot (factored by type and quality of 5, 6, or 7)
 
 ------
 
