@@ -309,12 +309,12 @@ Wine wines are overall more acidic and more dense than white wines but there are
 
 ```{r echo=FALSE, Multivariate_Plots}
 # scatter plot by wine type
+# doc: http://docs.ggplot2.org/0.9.3.1/stat_smooth.html
 ggplot(data,aes(x=pH, y=alcohol, colour=type)) +
     geom_point(alpha=.3) +
-    geom_smooth(alpha=.25, size=1, method = "loess", span = 0.9) +
-    ggtitle("pH and Alcohol Scatterplot by Wine Type") +
-    labs(subtitle = 'For white wines, pH vs. alcohol stays relatively steady,
-                but for red wines, alcohol starts to increast at a pH of 3.5')
+    geom_smooth(alpha=.25, method = "loess", span = 1.5) +
+    ggtitle("pH and Alcohol Scatterplot by Wine Type")
+
 ```
 
 There isn't a clear pattern between alcohol and pH either for red or white wine.  The line for red wine slants upward after a pH of 3.5 but this may be due to outliers.
@@ -339,6 +339,8 @@ ggplot(data_selectQual, aes(x=pH, y=alcohol, colour = factor(quality))) +
       subtitle = 'Subsetted by quality levels of 5,6,7')
 
 ```
+
+There appears to be weak correlation between pH and alcohol for both red and white wines at quality levels of 5, 6, and 7.
 
 # Multivariate Analysis
 
