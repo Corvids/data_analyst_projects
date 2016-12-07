@@ -117,7 +117,7 @@ The citric acid histogram is somewhat normal with a right skew with a mean of ab
 # hist plots for chlorides, free.sulfur.dioxide, total.sulfur.dioxide, and density
 chlorides_hist <- ggplot(data, aes(x=chlorides)) +
           geom_histogram(colour="#333333", fill="#b4006d") +
-          ggtitle("Chlorides Histogram") +
+          ggtitle("Chlorides Histogram")
 chlorides_hist
 ```
 
