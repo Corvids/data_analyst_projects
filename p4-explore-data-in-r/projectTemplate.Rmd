@@ -265,7 +265,7 @@ par(cex = cex.before)
 
 ### Talk about some of the relationships you observed in this part of the investigation. How did the feature(s) of interest vary with other features in the dataset?
 
-In the box plots, quality didn't vary much by wine type; the majority of the datapoints had a quality level of 5 or 6, although there white wines had an outlier that had a quality of 9.  This may be due to the fact that very few wines were rated a 3 or 9.
+In the box plots, quality didn't vary much by wine type; the majority of the datapoints had a quality rating of 5 or 6, although there white wines had an outlier that had a quality of 9.  This may be due to the fact that very few wines were rated a 3 or 9.
 
 However, it is interesting to note that red wines were generally less acidic (had a higher pH value) than white wines.  White wines also had more outliers in this box plot distribution although there are also more observations for white wines, so this I wouldn't consider this too unusual.  White wines had a median pH of 3.18 and red wines had a median pH of 3.31, with a difference of 0.13.
 
@@ -309,15 +309,14 @@ Wine wines are overall more acidic and more dense than white wines but there are
 
 ```{r echo=FALSE, Multivariate_Plots}
 # scatter plot by wine type
-# doc: http://docs.ggplot2.org/0.9.3.1/stat_smooth.html
 ggplot(data,aes(x=pH, y=alcohol, colour=type)) +
     geom_point(alpha=.3) +
-    geom_smooth(alpha=.25, method = "loess", span = 1.5) +
+    geom_smooth(alpha=.25, method = "loess", span = 0.9) +
     ggtitle("pH and Alcohol Scatterplot by Wine Type")
 
 ```
 
-There isn't a clear pattern between alcohol and pH either for red or white wine.  The line for red wine slants upward after a pH of 3.5 but this may be due to outliers.
+There isn't a clear negative or positive correlation between alcohol and pH either for white wine.  The line for red wine slants upward after a pH of 3.5 but this may be due to outliers.
 
 ```{r echo=FALSE, Multivariate_Plots}
 ggplot(data, aes(x = pH, y = alcohol, colour=type)) +
@@ -333,14 +332,14 @@ The centers for red wines and white wines for the pH vs alcohol graph are very c
 data_selectQual <- subset(data, quality >= 5 & quality <= 7)
 
 ggplot(data_selectQual, aes(x=pH, y=alcohol, colour = factor(quality))) +
-  geom_point() +
+  geom_point() + stat_density2d() +
   facet_grid(quality ~ type) +
   labs(title = 'pH vs alcohol scatterplot (factored by type and quality)',
-      subtitle = 'Subsetted by quality levels of 5,6,7')
+      subtitle = 'Subsetted by quality ratinfs of 5,6,7')
 
 ```
 
-There appears to be weak correlation between pH and alcohol for both red and white wines at quality levels of 5, 6, and 7.
+There appears to be weak correlation between pH and alcohol for both red and white wines at quality ratings of 5, 6, and 7.
 
 # Multivariate Analysis
 
@@ -350,7 +349,7 @@ There appears to be weak correlation between pH and alcohol for both red and whi
 
 The relationship between alcohol and pH was positive for red wines at a pH level greater than 3.5.  Overall, the relationship between pH and quality did not have a very positive relationship for white wines.  However, for red wines, there was a slight negative relationship between quality and pH for red wines.
 
-When I looked at the scatterplot for alcohol and pH segmented by wine type and quality, it appears as though for quality ratings for 3, 8, and 9, there was a somewhat positive relationship between pH and alcohol, alghough this may also be due to the fact that there are fewer observations at these levels.  It's also interesting to note that red wine had zero observations that were rated a 9.
+When we subset the pH vs alcohol scatterplot by quality ratings of 5,6, and 7 and wine type, it's interesting to note that centers are in approximately the same location for each scatterplot. I would have expected the centers would change based on quality, alcohol, and pH level since I do somewhat expect that a wine rated a 5 would be different somehow to a wine rated a 7.
 
 ### OPTIONAL: Did you create any models with your dataset? Discuss the strengths and limitations of your model.
 
@@ -369,14 +368,14 @@ ggplot(data, aes(x=type, y=pH, fill=type)) +
 ```
 
 ### Box Plot for pH by Wine Type
-
+Red wines were somewhat less acidic (had a higher pH value) than white wines.  White wines also had more outliers in this box plot distribution although there are also more observations for white wines, so this is expected.  White wines had a median pH of 3.18 and red wines had a median pH of 3.31, with a difference of 0.13.
 
 ### Plot Two
 ```{r echo=FALSE, Plot_Two}
 
 ggplot(data,aes(x=pH, y=alcohol, colour=type)) +
     geom_point(alpha=.3) +
-    geom_smooth(alpha=.25, size=1) +
+    geom_smooth(alpha=.25, method = "loess", span = 0.9) +
     ggtitle("pH and Alcohol Scatterplot by Wine Type") +
     labs(subtitle = 'For white wines, pH vs. alcohol stays relatively steady,
                 but for red wines, alcohol starts to increast at a pH of 3.5') +
@@ -386,7 +385,7 @@ ggplot(data,aes(x=pH, y=alcohol, colour=type)) +
 ```
 
 ### pH and Alcohol Scatterplot by Wine Type
-
+There isn't a clear negative or positive correlation between alcohol and pH either for white wine.  The line for red wine slants upward after a pH of 3.5 but this may be due to outliers.
 
 ### Plot Three
 ```{r echo=FALSE, Plot_Three}
@@ -394,15 +393,17 @@ ggplot(data,aes(x=pH, y=alcohol, colour=type)) +
 data_selectQual <- subset(data, quality >= 5 & quality <= 7)
 
 ggplot(data_selectQual, aes(x=pH, y=alcohol, colour = factor(quality))) +
-  geom_point() +
+  geom_point() + stat_density2d() +
   facet_grid(quality ~ type) +
   labs(title = 'pH vs alcohol scatterplot (factored by type and quality)',
-      subtitle = 'Subsetted by quality levels of 5,6,7') +
+      subtitle = 'Subsetted by quality ratings of 5,6,7') +
       ylab('alcohol (% ABV)') + xlab('pH level')
 
 ```
 
-### pH and Alcohol scatterplot (factored by type and quality of 5, 6, or 7)
+### pH and Alcohol scatterplot (factored by type and quality of 5, 6, and 7)
+
+When we subset the pH vs alcohol scatterplot by quality ratings of 5,6, and 7 and wine type, we see that there is one center for all scatterplots except for white wines that were rated a 7, although these centers are relatively close to one another; it's also interesting to note that centers are in approximately the same location for each scatterplot.
 
 ------
 
