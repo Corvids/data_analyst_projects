@@ -8,7 +8,7 @@ TODO: explain any design choices you made including changes to the visualization
 TODO: include feedback here
 
 ## Resources
-Data is sourced from: https://www.kaggle.com/gregorut/videogamesales
+Data is sourced from: https://www.kaggle.com/deepmatrix/imdb-5000-movie-dataset
 Additional Resources:
 - Book by Scott Murray: http://alignedleft.com/tutorials/d3
 - type conversion when reading csv: http://learnjsdata.com/read_data.html
