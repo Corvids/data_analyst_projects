@@ -10,7 +10,9 @@
     </head>
     <body>
         <script type="text/javascript">
-            // Your beautiful D3 code will go here
+          d3.csv("data/movie_metadata.csv", function(data) {
+            console.log(data);
+          });
         </script>
     </body>
 </html>
